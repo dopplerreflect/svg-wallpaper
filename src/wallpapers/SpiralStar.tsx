@@ -18,7 +18,12 @@ const pc = (angle: number, radius: number) => {
 
 export default function SpiralStar() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+    >
       <defs>
         <linearGradient id="gradient" gradientTransform="rotate(90)">
           <stop offset="5%" stopColor="hsl(0, 100%, 2%)" />
