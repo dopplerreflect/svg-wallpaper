@@ -8,6 +8,7 @@ type StarProps = {
   fill?: string;
   stroke?: string;
   strokeWidth?: number;
+  filter?: string;
 };
 const Star = ({ cx, cy, r, ...props }: StarProps) => {
   const pc = (angle: number, radius: number) => {
@@ -32,6 +33,7 @@ const Star = ({ cx, cy, r, ...props }: StarProps) => {
       stroke={props.stroke}
       strokeWidth={props.strokeWidth}
       transform={props.transform}
+      filter={props.filter}
     />
   );
 };

@@ -4,7 +4,10 @@ import Star from './components/star';
 const clip = false;
 const width = 1920;
 const height = 1080;
-const randomPoints = [...Array(144)].map(i => ({
+const cx = width / 2;
+const cy = height / 2;
+const numPoints = 200;
+const randomPoints = [...Array(numPoints)].map(i => ({
   cx: Math.round(Math.random() * width),
   cy: Math.round(Math.random() * height),
   r: Math.round(Math.random() * 100),
@@ -25,6 +28,14 @@ export default function RandomCircles() {
 
           <stop offset="90%" stopColor="hsl(260, 100%, 10%)" />
         </linearGradient>
+        {[...Array(Math.floor(numPoints / 20)).keys()].map(k => (
+          <filter key={k} id={`blur-${k}`}>
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation={Math.floor(numPoints / 20) - k}
+            />
+          </filter>
+        ))}
       </defs>
       <rect width={width} height={height} fill="url(#bg-gradient)" />
       {randomPoints.map((p, i) => (
@@ -32,14 +43,18 @@ export default function RandomCircles() {
           key={i}
           cx={p.cx}
           cy={p.cy}
-          r={p.r}
+          r={height * 0.61803 ** 6}
           stroke={`hsla(${180 + p.cy / 10.8}, 100%, 50%, 1)`}
-          fill={`hsla(${0 + p.cy / 10.8}, 100%, 50%, 0.5)`}
+          fill={`hsla(${240 + p.cy / 10.8}, 100%, 50%, ${
+            ((numPoints / 20) * (i / numPoints)) / 10
+          })`}
           strokeWidth={p.r / 20}
           transform={`rotate(${Math.random() * 72}, ${p.cx}, ${p.cy})`}
+          filter={`url(#blur-${Math.floor(
+            (numPoints / 20) * (i / numPoints)
+          )})`}
         />
       ))}
     </svg>
   );
 }
-console.log(JSON.stringify(randomPoints));
