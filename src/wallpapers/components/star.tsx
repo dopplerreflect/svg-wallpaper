@@ -24,7 +24,6 @@ const Star = ({ cx, cy, r, ...props }: StarProps) => {
         pc(props.upright ? 270 : 0, r).y
       } ${[...Array(10).keys()]
         .map(k => (360 / 10) * k)
-        .slice(1, 10)
         .map(
           a =>
             `L${
