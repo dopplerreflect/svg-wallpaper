@@ -4,6 +4,7 @@ type StarProps = {
   cx: number;
   cy: number;
   r: number;
+  upright?: boolean;
   transform?: string;
   fill?: string;
   stroke?: string;
@@ -19,13 +20,23 @@ const Star = ({ cx, cy, r, ...props }: StarProps) => {
   };
   return (
     <path
-      d={`M${pc(0, r).x},${pc(0, r).y} ${[...Array(10).keys()]
+      d={`M${pc(props.upright ? 270 : 0, r).x},${
+        pc(props.upright ? 270 : 0, r).y
+      } ${[...Array(10).keys()]
         .map(k => (360 / 10) * k)
         .slice(1, 10)
         .map(
           a =>
-            `L${pc(a, a % 72 === 0 ? r : r * 0.61803 ** 2).x},${
-              pc(a, a % 72 === 0 ? r : r * 0.61803 ** 2).y
+            `L${
+              pc(
+                props.upright ? a - 90 : a,
+                a % 72 === 0 ? r : r * 0.61803 ** 2
+              ).x
+            },${
+              pc(
+                props.upright ? a - 90 : a,
+                a % 72 === 0 ? r : r * 0.61803 ** 2
+              ).y
             }`
         )
         .join(' ')} Z`}
