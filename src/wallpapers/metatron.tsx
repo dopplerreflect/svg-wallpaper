@@ -29,18 +29,18 @@ export default function Metatron() {
               y2={pc(cx, cy, a + 60, r).y}
               stroke={`white`}
             />
+            <line
+              x1={pc(cx, cy, a, r).x}
+              y1={pc(cx, cy, a, r).y}
+              x2={pc(cx, cy, a + 120, r).x}
+              y2={pc(cx, cy, a + 120, r).y}
+              stroke={`white`}
+            />
           </g>
         ))
       )}
       {angles.map(a => (
         <g key={a}>
-          <line
-            x1={pc(cx, cy, a, cr * 4).x}
-            y1={pc(cx, cy, a, cr * 4).y}
-            x2={pc(cx, cy, a + 120, cr * 4).x}
-            y2={pc(cx, cy, a + 120, cr * 4).y}
-            stroke={`white`}
-          />
           <line
             x1={pc(cx, cy, a, cr * 4).x}
             y1={pc(cx, cy, a, cr * 4).y}
