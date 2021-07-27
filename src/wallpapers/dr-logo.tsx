@@ -7,7 +7,7 @@ const cx = width / 2;
 const cy = height / 2;
 const r = [cy * PHI, cy * PHI ** 3, cy * PHI ** 2];
 const angles = [...Array(10).keys()].map(k => (360 / 10) * k - 90);
-const strokeWidth = cy * PHI ** 5;
+const strokeWidth = cy * PHI ** 4.5;
 
 const pc = (angle: number, radius: number) => ({
   x: cx + radius * Math.cos(angle * (Math.PI / 180)),
@@ -17,6 +17,48 @@ const pc = (angle: number, radius: number) => ({
 export default function DRLogo() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
+      <defs>
+        <filter id="shiny" filterUnits="userSpaceOnUse">
+          <feGaussianBlur
+            in="SourceAlpha"
+            stdDeviation={strokeWidth * 0.25}
+            result="blur"
+          />
+          <feOffset in="blur" dx="0" dy="30" result="offsetBlur" />
+
+          <feSpecularLighting
+            in="blur"
+            surfaceScale="25"
+            specularConstant=".5"
+            specularExponent="5"
+            lightingColor="hsl(135, 100%, 50%)"
+            result="specOut"
+          >
+            <fePointLight x="960" y="-3000" z="-1000" />
+          </feSpecularLighting>
+          <feComposite
+            in="specOut"
+            in2="SourceAlpha"
+            operator="in"
+            result="specOut"
+          />
+          <feComposite
+            in="SourceGraphic"
+            in2="specOut"
+            operator="arithmetic"
+            k1="0"
+            k2="1"
+            k3="1"
+            k4="0"
+            result="litPaint"
+          />
+
+          <feMerge>
+            <feMergeNode in="offsetBlur" />
+            <feMergeNode in="litPaint" />
+          </feMerge>
+        </filter>
+      </defs>
       <rect width={width} height={height} fill={`hsl(220, 100%, 10%)`} />
       {r.map(r => (
         <circle
@@ -25,7 +67,7 @@ export default function DRLogo() {
           cy={cy}
           r={r}
           fill="none"
-          stroke="white"
+          stroke="lightblue"
           strokeWidth="2"
         />
       ))}
@@ -41,15 +83,16 @@ export default function DRLogo() {
             .join(' ') + ' Z'
         }
         fill="transparent"
-        stroke="white"
+        stroke="lightblue"
       />
       <path
         d={`M${pc(angles[0], r[0]).x},${pc(angles[0], r[0]).y} A${r[0]},${
           r[0]
         } 0 1 1 ${pc(angles[6], r[0]).x},${pc(angles[6], r[0]).y} Z`}
         fill="none"
-        stroke="blue"
+        stroke="hsl(225, 100%, 50%)"
         strokeWidth={strokeWidth}
+        filter="url(#shiny)"
         // strokeLinejoin="bevel"
       />
       <path
@@ -65,8 +108,9 @@ export default function DRLogo() {
           pc(angles[6] + 12, r[2]).y
         } L${pc(angles[9], r[1]).x},${pc(angles[9], r[1]).y} Z`}
         fill="none"
-        stroke="yellow"
+        stroke="hsl(45,100%,50%)"
         strokeWidth={strokeWidth}
+        filter="url(#shiny)"
         // strokeLinejoin="bevel"
       />
     </svg>
