@@ -1,4 +1,5 @@
 import React from 'react';
+import Star from './components/star';
 const PHI = (1 + Math.sqrt(5)) / 2;
 const negPHI = PHI - 1;
 const width = 1920;
@@ -20,8 +21,8 @@ export default function SpiralStar() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
+      // width={width}
+      // height={height}
       viewBox={`0 0 ${width} ${height}`}
     >
       <defs>
@@ -42,7 +43,7 @@ export default function SpiralStar() {
             <g key={o}>
               {[...Array(radials).keys()].map(i => {
                 return (
-                  <circle
+                  <Star
                     key={i}
                     cx={Math.round(
                       cx +
@@ -59,13 +60,14 @@ export default function SpiralStar() {
                           Math.sin(radian + ((Math.PI * 2) / radials) * i)
                     )}
                     r={o / Math.PI}
+                    rotate={angle}
                     style={{
                       stroke: `hsla(${Math.round(
                         280 - (30 / radials) * o
-                      )}, 100%, 33%, 0.9)`,
+                      )}, 100%, 50%, 1)`,
                       fill: `hsla(${Math.round(
                         280 - (30 / radials) * o
-                      )}, 100%, 10%, 0.3)`,
+                      )}, 100%, 10%, 0.33)`,
                     }}
                   />
                 );
@@ -114,7 +116,7 @@ export default function SpiralStar() {
             <g key={o}>
               {Array.from({ length: radials }).map((_, i) => {
                 return (
-                  <circle
+                  <Star
                     key={i}
                     cx={Math.round(
                       cx +
@@ -128,7 +130,8 @@ export default function SpiralStar() {
                           PHI *
                           Math.sin(radian + ((Math.PI * 2) / radials) * i)
                     )}
-                    r={o / Math.PI / 3}
+                    r={o / Math.PI / 2.25}
+                    rotate={angle}
                     style={{
                       stroke: `hsla(${Math.round(
                         90 - (30 / radials) * o
