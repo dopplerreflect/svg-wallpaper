@@ -30,8 +30,8 @@ export default function DRLogo() {
           <feSpecularLighting
             in="blur"
             surfaceScale="25"
-            specularConstant=".5"
-            specularExponent="5"
+            specularConstant="1"
+            specularExponent="2"
             lightingColor={`hsl(${baseHue + 120}, 50%, 50%)`}
             result="specOut"
           >
@@ -98,7 +98,7 @@ export default function DRLogo() {
         stroke={`hsl(${baseHue + 180}, 100%, 50%)`}
         strokeWidth={strokeWidth}
         filter="url(#shiny)"
-        transform={`rotate(-18, ${cx}, ${cy})`}
+        // transform={`rotate(-18, ${cx}, ${cy})`}
       />
       <path
         d={`M${pc(angles[8] + 12, r[2]).x},${pc(angles[8] + 12, r[2]).y} A${
