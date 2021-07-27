@@ -10,7 +10,19 @@ const angles = [...Array(6).keys()].map(k => (360 / 6) * k - 90);
 export default function Metatron() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
-      <rect width={width} height={height} fill={`hsl(270, 100%, 5%)`} />
+      <defs>
+        <filter id="bg-filter">
+          <feTurbulence baseFrequency=".025 " type="fractalNoise" seed="0.5" />
+          <feDiffuseLighting
+            lightingColor={`hsl(45, 100%, 50%)`}
+            surfaceScale="50"
+          >
+            <fePointLight x="960" y="540" z="-750" />
+          </feDiffuseLighting>
+        </filter>
+      </defs>
+      {/* <rect width={width} height={height} fill={`hsl(270, 100%, 5%)`} /> */}
+      <rect width={width} height={height} filter="url(#bg-filter)" />
       <circle cx={cx} cy={cy} r={cr} stroke={'white'} fill={`transparent`} />
       {[cr * 2, cr * 4].map(r =>
         angles.map(a => (
