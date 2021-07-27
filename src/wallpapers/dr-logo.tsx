@@ -8,6 +8,7 @@ const cy = height / 2;
 const r = [cy * PHI, cy * PHI ** 3, cy * PHI ** 2];
 const angles = [...Array(10).keys()].map(k => (360 / 10) * k - 90);
 const strokeWidth = cy * PHI ** 4.5;
+const baseHue = 45;
 
 const pc = (angle: number, radius: number) => ({
   x: cx + radius * Math.cos(angle * (Math.PI / 180)),
@@ -31,7 +32,7 @@ export default function DRLogo() {
             surfaceScale="25"
             specularConstant=".5"
             specularExponent="5"
-            lightingColor="hsl(135, 100%, 50%)"
+            lightingColor={`hsl(${baseHue + 120}, 50%, 50%)`}
             result="specOut"
           >
             <fePointLight x="960" y="-3000" z="-1000" />
@@ -59,7 +60,11 @@ export default function DRLogo() {
           </feMerge>
         </filter>
       </defs>
-      <rect width={width} height={height} fill={`hsl(220, 100%, 10%)`} />
+      <rect
+        width={width}
+        height={height}
+        fill={`hsl(${baseHue + 180}, 100%, 10%)`}
+      />
       {r.map(r => (
         <circle
           key={r}
@@ -67,7 +72,7 @@ export default function DRLogo() {
           cy={cy}
           r={r}
           fill="none"
-          stroke="lightblue"
+          stroke={`hsl(${baseHue + 180}, 100%, 75%)`}
           strokeWidth="2"
         />
       ))}
@@ -83,17 +88,17 @@ export default function DRLogo() {
             .join(' ') + ' Z'
         }
         fill="transparent"
-        stroke="lightblue"
+        stroke={`hsl(${baseHue + 180}, 100%, 75%)`}
       />
       <path
         d={`M${pc(angles[0], r[0]).x},${pc(angles[0], r[0]).y} A${r[0]},${
           r[0]
         } 0 1 1 ${pc(angles[6], r[0]).x},${pc(angles[6], r[0]).y} Z`}
         fill="none"
-        stroke="hsl(225, 100%, 50%)"
+        stroke={`hsl(${baseHue + 180}, 100%, 50%)`}
         strokeWidth={strokeWidth}
         filter="url(#shiny)"
-        // strokeLinejoin="bevel"
+        transform={`rotate(-18, ${cx}, ${cy})`}
       />
       <path
         d={`M${pc(angles[8] + 12, r[2]).x},${pc(angles[8] + 12, r[2]).y} A${
@@ -108,10 +113,10 @@ export default function DRLogo() {
           pc(angles[6] + 12, r[2]).y
         } L${pc(angles[9], r[1]).x},${pc(angles[9], r[1]).y} Z`}
         fill="none"
-        stroke="hsl(45,100%,50%)"
+        stroke={`hsl(${baseHue}, 100%, 50%)`}
         strokeWidth={strokeWidth}
         filter="url(#shiny)"
-        // strokeLinejoin="bevel"
+        // transform={`rotate(-18, ${cx}, ${cy})`}
       />
     </svg>
   );
