@@ -20,53 +20,47 @@ export default function DRLogo() {
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
       <defs>
         <filter id="shiny" filterUnits="userSpaceOnUse">
-          <feGaussianBlur
-            in="SourceAlpha"
-            stdDeviation={strokeWidth * 0.25}
-            result="blur"
-          />
-          <feOffset in="blur" dx="0" dy="30" result="offsetBlur" />
-
+          <feGaussianBlur stdDeviation="16" result="blur" in="SourceAlpha" />
+          <feOffset dx="0" dy="30" result="offset" id="feOffset1532" />
           <feSpecularLighting
+            lightingColor="hsl(165, 50%, 50%)"
             in="blur"
+            result="result1"
             surfaceScale="25"
             specularConstant="1"
-            specularExponent="2"
-            lightingColor={`hsl(${baseHue + 120}, 50%, 50%)`}
-            result="specOut"
+            specularExponent="20"
           >
-            <fePointLight x="960" y="-3000" z="-1000" />
+            <fePointLight x="960" y="130" z="0" />
           </feSpecularLighting>
           <feComposite
-            in="specOut"
+            in="result1"
             in2="SourceAlpha"
             operator="in"
-            result="specOut"
+            result="composite2"
           />
           <feComposite
             in="SourceGraphic"
-            in2="specOut"
+            result="result2"
             operator="arithmetic"
-            k1="0"
             k2="1"
             k3="1"
-            k4="0"
-            result="litPaint"
+            in2="composite2"
           />
-
-          <feMerge>
-            <feMergeNode in="offsetBlur" />
-            <feMergeNode in="litPaint" />
+          <feMerge id="feMerge2462">
+            <feMergeNode in="result2" />
+            <feMergeNode in="offset" />
           </feMerge>
         </filter>
       </defs>
       <rect
+        id="rect-bg"
         width={width}
         height={height}
         fill={`hsl(${baseHue + 180}, 100%, 10%)`}
       />
-      {r.map(r => (
+      {r.map((r, i) => (
         <circle
+          id={`circle-${i}`}
           key={r}
           cx={cx}
           cy={cy}
@@ -77,6 +71,7 @@ export default function DRLogo() {
         />
       ))}
       <path
+        id="path-star"
         d={
           angles
             .map(
@@ -87,13 +82,18 @@ export default function DRLogo() {
             )
             .join(' ') + ' Z'
         }
-        fill="transparent"
+        fill="none"
         stroke={`hsl(${baseHue + 180}, 100%, 75%)`}
       />
       <path
-        d={`M${pc(angles[0], r[0]).x},${pc(angles[0], r[0]).y} A${r[0]},${
-          r[0]
-        } 0 1 1 ${pc(angles[6], r[0]).x},${pc(angles[6], r[0]).y} Z`}
+        id="path-D"
+        d={[
+          `M${pc(angles[0], r[0]).x},${pc(angles[0], r[0]).y}`,
+          `A${r[0]},${r[0]} 0 1 1 ${pc(angles[6], r[0]).x},${
+            pc(angles[6], r[0]).y
+          }`,
+          `Z`,
+        ].join(' ')}
         fill="none"
         stroke={`hsl(${baseHue + 180}, 100%, 50%)`}
         strokeWidth={strokeWidth}
@@ -101,17 +101,21 @@ export default function DRLogo() {
         // transform={`rotate(-18, ${cx}, ${cy})`}
       />
       <path
-        d={`M${pc(angles[8] + 12, r[2]).x},${pc(angles[8] + 12, r[2]).y} A${
-          r[2]
-        },${r[2]} 0 1 1 ${pc(angles[4] - 12, r[2]).x},${
-          pc(angles[4] - 12, r[2]).y
-        } L${pc(angles[4], r[0]).x},${pc(angles[4], r[0]).y} L${
-          pc(angles[5], r[1]).x
-        },${pc(angles[5], r[1]).y} L${pc(angles[6] - 12, r[2]).x},${
-          pc(angles[6] - 12, r[2]).y
-        } A${r[2]},${r[2]} 0 0 1 ${pc(angles[6] + 12, r[2]).x},${
-          pc(angles[6] + 12, r[2]).y
-        } L${pc(angles[9], r[1]).x},${pc(angles[9], r[1]).y} Z`}
+        id="path-R"
+        d={[
+          `M${pc(angles[8] + 12, r[2]).x},${pc(angles[8] + 12, r[2]).y}`,
+          `A${r[2]},${r[2]} 0 1 1 ${pc(angles[4] - 12, r[2]).x},${
+            pc(angles[4] - 12, r[2]).y
+          }`,
+          `L${pc(angles[4], r[0]).x},${pc(angles[4], r[0]).y}`,
+          `L${pc(angles[5], r[1]).x},${pc(angles[5], r[1]).y}`,
+          `L${pc(angles[6] - 12, r[2]).x},${pc(angles[6] - 12, r[2]).y}`,
+          `A${r[2]},${r[2]} 0 0 1 ${pc(angles[6] + 12, r[2]).x},${
+            pc(angles[6] + 12, r[2]).y
+          }`,
+          `L${pc(angles[9], r[1]).x},${pc(angles[9], r[1]).y}`,
+          `Z`,
+        ].join(' ')}
         fill="none"
         stroke={`hsl(${baseHue}, 100%, 50%)`}
         strokeWidth={strokeWidth}
