@@ -11,13 +11,24 @@ const radius = cy - circleThickness;
 export default function Dash() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
-      <rect width={width} height={height} fill="hsl(240, 25%, 25%)" />
+      <defs>
+        <linearGradient id="blue-gradient" gradientTransform="rotate(90)">
+          <stop offset="0%" stopColor="hsl(240, 50%, 75%)" />
+          <stop offset="100%" stopColor="hsl(240, 50%, 25%)" />
+        </linearGradient>
+        <linearGradient id="orange-gradient" gradientTransform="rotate(90)">
+          <stop offset="0%" stopColor="hsl(30, 100%, 25%)" />
+          <stop offset="100%" stopColor="hsl(30, 100%, 75%)" />
+        </linearGradient>
+      </defs>
+      <rect width={width} height={height} fill="hsl(240, 25%, 10%)" />
       <circle
         cx={cx}
         cy={cy}
         r={cy - cy * PHI ** 6}
         strokeWidth={circleThickness}
-        stroke={`hsl(210, 50%, 70%)`}
+        // stroke={`hsl(210, 50%, 70%)`}
+        stroke="url(#blue-gradient)"
         fill="none"
       />
       <path
@@ -35,7 +46,7 @@ export default function Dash() {
           `${pc(cx, cy, 234, radius * PHI ** 2).y}`,
           `Z`,
         ].join(' ')}
-        fill={`hsl(30, 100%, 50%)`}
+        fill="url(#orange-gradient)"
         transform={`rotate(216, ${cx}, ${cy})`}
       />
     </svg>
