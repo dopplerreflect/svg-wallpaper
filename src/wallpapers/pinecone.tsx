@@ -30,8 +30,8 @@ export default function Test() {
                 .map(i => i + 1)
                 .map(i =>
                   [
-                    `L${p(i * PHI ** 4, (cy / 40) * i).x},`,
-                    `${p(i * PHI ** 4, (cy / 40) * i).y}`,
+                    `L${Math.round(p(i * PHI ** 4, (cy / 40) * i).x)},`,
+                    `${Math.round(p(i * PHI ** 4, (cy / 40) * i).y)}`,
                   ].join(' ')
                 ),
             ].join(' ')}
@@ -47,9 +47,9 @@ export default function Test() {
                 .map(i => i + 1)
                 .map(
                   i =>
-                    `L${p(i - i * PHI ** 4, (cy / 40) * i).x},${
-                      p(i - i * PHI ** 4, (cy / 40) * i).y
-                    } `
+                    `L${Math.round(
+                      p(i - i * PHI ** 4, (cy / 40) * i).x
+                    )},${Math.round(p(i - i * PHI ** 4, (cy / 40) * i).y)} `
                 ),
             ].join(' ')}
             fill="none"
@@ -57,7 +57,6 @@ export default function Test() {
             strokeWidth="1"
           />
         </g>
-
         <radialGradient
           id="radial-gradient"
           cx={cx}
@@ -68,7 +67,6 @@ export default function Test() {
           <stop offset="0%" stopColor="hsl(285,100%,33%)" />
           <stop offset="100%" stopColor="hsl(285,100%,5%)" />
         </radialGradient>
-
         <filter id="blur">
           <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="blur" />
           <feOffset in="blur" dx="0" dy="10" result="offsetBlur" />
@@ -78,23 +76,20 @@ export default function Test() {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <mask id="radial-gradient-mask">
-          <circle cx={cx} cy={cy} r={cy} fill="url(#radial-gradient)" />
-        </mask>
       </defs>
       <rect width={width} height={height} fill={`url(#radial-gradient)`} />
       <g id="pinecone" filter="url(#blur)">
         {angles(5).map(a => (
           <use
             key={a}
-            href="#right-curve"
+            xlinkHref="#right-curve"
             transform={`rotate(${a}, ${cx}, ${cy})`}
           />
         ))}
         {angles(8).map(a => (
           <use
             key={a}
-            href="#left-curve"
+            xlinkHref="#left-curve"
             transform={`rotate(${a}, ${cx}, ${cy})`}
           />
         ))}
