@@ -4,7 +4,7 @@ const width = 1920;
 const height = 1080;
 const hue = 15;
 const saturation = '100%';
-const lightness = '33%';
+const lightness = '50%';
 const squareSide = height / 4;
 
 // const randomPoints = (count: number) => {
