@@ -23,3 +23,18 @@ export const lerp = (start: number, end: number, t: number) =>
 export const interpolate = (divs: number) => {
   return [0, ...[...Array(divs).keys()].map(k => (1 / divs) * (k + 1))];
 };
+
+export const cubicBezierPoints = (
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  divs: number
+) => {
+  return interpolate(divs).map(t => ({
+    x: lerp(lerp(x0, x1, t), lerp(x1, x2, t), t),
+    y: lerp(lerp(y0, y1, t), lerp(y1, y2, t), t),
+  }));
+};

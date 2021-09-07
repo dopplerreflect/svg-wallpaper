@@ -1,5 +1,5 @@
 import React from 'react';
-import { interpolate, lerp } from '../utils';
+import { cubicBezierPoints, interpolate, lerp } from '../utils';
 import Star from './components/star';
 
 const width = 1920;
@@ -31,8 +31,9 @@ export default function Bezier() {
           fill="none"
         />
       ))}
-      {/* <path d="M0,0 Q 0 1080 1920 1080" stroke="white" fill="none" /> */}
-      {/* <path d="M0,0 Q 1920 0 1920 1080" stroke="white" fill="none" /> */}
+      {cubicBezierPoints(50, 50, 50, 1030, 1870, 1030, 20).map((p, i) => (
+        <circle key={i} cx={p.x} cy={p.y} r={50} stroke="white" />
+      ))}
     </svg>
   );
 }
