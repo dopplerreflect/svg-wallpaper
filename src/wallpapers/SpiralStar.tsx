@@ -61,14 +61,12 @@ export default function SpiralStar() {
                     )}
                     r={o / Math.PI}
                     rotate={angle}
-                    style={{
-                      stroke: `hsla(${Math.round(
-                        280 - (30 / radials) * o
-                      )}, 100%, 50%, 1)`,
-                      fill: `hsla(${Math.round(
-                        280 - (30 / radials) * o
-                      )}, 100%, 10%, 0.33)`,
-                    }}
+                    fill={`hsl(${Math.round(
+                      280 - (30 / radials) * o
+                    )}, 100%, 10%)`}
+                    stroke={`hsl(${Math.round(
+                      280 - (30 / radials) * o
+                    )}, 100%, 50%)`}
                   />
                 );
               })}
@@ -83,8 +81,8 @@ export default function SpiralStar() {
             cx={cx}
             cy={cy}
             r={r}
-            stroke={`hsla(45, 100%, 50%, 1)`}
-            fill="transparent"
+            stroke={`hsl(45, 100%, 50%)`}
+            fill="none"
           />
         ))}
       </g>
@@ -105,7 +103,8 @@ export default function SpiralStar() {
           strokeLinecap="round"
           strokeLinejoin="bevel"
           transform={`rotate(0, ${cx}, ${cy})`}
-          fill="hsla(240, 100%, 20%, 0.5)"
+          fill="hsl(240, 100%, 20%)"
+          fillOpacity={0.5}
         />
       </g>
       <g id="sunflower" clipPath="url(#circleClip)">
@@ -132,14 +131,12 @@ export default function SpiralStar() {
                     )}
                     r={o / Math.PI / 2.25}
                     rotate={angle}
-                    style={{
-                      stroke: `hsla(${Math.round(
-                        90 - (30 / radials) * o
-                      )}, 100%, 50%, 1)`,
-                      fill: `hsla(${Math.round(
-                        90 - (30 / radials) * o
-                      )}, 100%, 10%, 1)`,
-                    }}
+                    stroke={`hsl(${Math.round(
+                      90 - (30 / radials) * o
+                    )}, 100%, 50%)`}
+                    fill={`hsl(${Math.round(
+                      90 - (30 / radials) * o
+                    )}, 100%, 10%)`}
                   />
                 );
               })}

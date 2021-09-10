@@ -22,23 +22,25 @@ const Star = ({ cx, cy, r, rotate = -90, ...props }: StarProps) => {
   };
   return (
     <path
-      d={`M${pc(rotate ? rotate : props.upright ? 270 : 0, r).x},${
-        pc(rotate ? rotate : props.upright ? 270 : 0, r).y
-      } ${[...Array(10).keys()]
+      d={`M${Math.round(
+        pc(rotate ? rotate : props.upright ? 270 : 0, r).x
+      )},${Math.round(pc(rotate ? rotate : props.upright ? 270 : 0, r).y)} ${[
+        ...Array(10).keys(),
+      ]
         .map(k => (360 / 10) * k)
         .map(
           a =>
-            `L${
+            `L${Math.round(
               pc(
                 rotate ? rotate + a : props.upright ? a - 90 : a,
                 a % 72 === 0 ? r : r * 0.61803 ** 2
               ).x
-            },${
+            )},${Math.round(
               pc(
                 rotate ? rotate + a : props.upright ? a - 90 : a,
                 a % 72 === 0 ? r : r * 0.61803 ** 2
               ).y
-            }`
+            )}`
         )
         .join(' ')} Z`}
       fill={props.fill}
