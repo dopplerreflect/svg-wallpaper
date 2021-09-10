@@ -2,8 +2,8 @@ import React from 'react';
 import Star from './components/star';
 const PHI = (1 + Math.sqrt(5)) / 2;
 const negPHI = PHI - 1;
-const width = 1920;
-const height = 1080;
+const width = 6000;
+const height = 4800;
 const cx = width / 2;
 const cy = height / 2;
 const radii = Array.from(Array(12)).map((_, i) => cy * negPHI ** i);
@@ -48,18 +48,16 @@ export default function SpiralStar() {
                     cx={Math.round(
                       cx +
                         angle *
-                          PHI *
-                          2 *
+                          PHI ** 5 *
                           Math.cos(radian + ((Math.PI * 2) / radials) * i)
                     )}
                     cy={Math.round(
                       cy +
                         angle *
-                          PHI *
-                          2 *
+                          PHI ** 5 *
                           Math.sin(radian + ((Math.PI * 2) / radials) * i)
                     )}
-                    r={o / Math.PI}
+                    r={o * negPHI * PHI}
                     rotate={angle}
                     fill={`hsl(${Math.round(
                       280 - (30 / radials) * o
@@ -67,6 +65,7 @@ export default function SpiralStar() {
                     stroke={`hsl(${Math.round(
                       280 - (30 / radials) * o
                     )}, 100%, 50%)`}
+                    strokeWidth={6}
                   />
                 );
               })}
@@ -74,7 +73,7 @@ export default function SpiralStar() {
           );
         })}
       </g>
-      <g transform={`rotate(-90, ${cx}, ${cy})`}>
+      <g id="circles" transform={`rotate(-90, ${cx}, ${cy})`}>
         {radii.map(r => (
           <circle
             key={r}
@@ -82,11 +81,12 @@ export default function SpiralStar() {
             cy={cy}
             r={r}
             stroke={`hsl(45, 100%, 50%)`}
+            strokeWidth={6}
             fill="none"
           />
         ))}
       </g>
-      <g transform={`rotate(-90, ${cx}, ${cy})`}>
+      <g id="star" transform={`rotate(-90, ${cx}, ${cy})`}>
         <path
           d={`M${pc(angles[0], radii[0]).x},${pc(angles[0], radii[0]).y} ${[
             ...Array(angles.length - 1).keys(),
@@ -99,7 +99,7 @@ export default function SpiralStar() {
             )
             .join(' ')} Z`}
           stroke="hsl(45, 100%, 50%)"
-          strokeWidth={1}
+          strokeWidth={6}
           strokeLinecap="round"
           strokeLinejoin="bevel"
           transform={`rotate(0, ${cx}, ${cy})`}
@@ -120,23 +120,24 @@ export default function SpiralStar() {
                     cx={Math.round(
                       cx +
                         angle *
-                          PHI *
+                          PHI ** 4 *
                           Math.cos(radian + ((Math.PI * 2) / radials) * i)
                     )}
                     cy={Math.round(
                       cy +
                         angle *
-                          PHI *
+                          PHI ** 4 *
                           Math.sin(radian + ((Math.PI * 2) / radials) * i)
                     )}
-                    r={o / Math.PI / 2.25}
+                    r={o * negPHI}
                     rotate={angle}
-                    stroke={`hsl(${Math.round(
-                      90 - (30 / radials) * o
-                    )}, 100%, 50%)`}
                     fill={`hsl(${Math.round(
                       90 - (30 / radials) * o
                     )}, 100%, 10%)`}
+                    stroke={`hsl(${Math.round(
+                      90 - (30 / radials) * o
+                    )}, 100%, 50%)`}
+                    strokeWidth={6}
                   />
                 );
               })}
