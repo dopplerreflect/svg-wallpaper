@@ -11,8 +11,8 @@ const angles = [...Array(6).keys()].map(k => 60 * k);
 const angles12 = [...Array(12).keys()].map(k => 30 * k);
 const angles24 = [...Array(24).keys()].map(k => 15 * k);
 
-const stroke = 'hsl(45, 100%, 50%)';
-const strokeWidth = 10;
+const stroke = 'white';
+const strokeWidth = 15;
 const background = 'hsl(225, 100%, 15%)';
 
 export default function FlowerOfLife() {
@@ -25,8 +25,8 @@ export default function FlowerOfLife() {
         </linearGradient>
         <path
           id="petal"
-          d={`M${pc(cx, cy, angles24[1], radius * 2.787).x},
-          ${pc(cx, cy, angles24[1], radius * 2.787).y} 
+          d={`M${pc(cx, cy, angles24[1], radius * 2.78).x},
+          ${pc(cx, cy, angles24[1], radius * 2.78).y} 
           C${pc(cx, cy, angles24[1], radius * 4).x},
           ${pc(cx, cy, angles24[1], radius * 4).y} 
           ${pc(cx, cy, angles24[0], radius * 3.5).x},
@@ -36,12 +36,11 @@ export default function FlowerOfLife() {
           ${pc(cx, cy, angles24[0], radius * 3.5).y} 
           ${pc(cx, cy, angles24[23], radius * 4).x},
           ${pc(cx, cy, angles24[23], radius * 4).y} 
-          ${pc(cx, cy, angles24[23], radius * 2.787).x},
-          ${pc(cx, cy, angles24[23], radius * 2.787).y} 
+          ${pc(cx, cy, angles24[23], radius * 2.78).x},
+          ${pc(cx, cy, angles24[23], radius * 2.78).y} 
           `}
           stroke={stroke}
           strokeWidth={strokeWidth}
-          strokeLinejoin="round"
           fill="url(#petalGradient)"
         />
       </defs>
@@ -115,6 +114,47 @@ export default function FlowerOfLife() {
                 fill="none"
                 stroke="white"
                 strokeWidth={strokeWidth}
+              />
+            </g>
+          ))}
+        </g>
+        <g id="flowerOfLifeInner" fill="green">
+          <circle
+            cx={cx}
+            cy={cy}
+            r={radius}
+            fill="none"
+            stroke={background}
+            strokeWidth={strokeWidth / 1.618}
+          />
+          {angles.map(a => (
+            <g id={`radial-${a}`} key={a}>
+              {/* second ring */}
+              <circle
+                cx={pc(cx, cy, a, radius * 2).x}
+                cy={pc(cx, cy, a, radius * 2).y}
+                r={radius}
+                fill="none"
+                stroke={background}
+                strokeWidth={strokeWidth / 1.618}
+              />
+              {/* first ring */}
+              <circle
+                cx={pc(cx, cy, a, radius).x}
+                cy={pc(cx, cy, a, radius).y}
+                r={radius}
+                fill="none"
+                stroke={background}
+                strokeWidth={strokeWidth / 1.618}
+              />
+              {/* second ring centered on vesica picses */}
+              <circle
+                cx={pc(cx, cy, a - 30, radius * 1.73).x}
+                cy={pc(cx, cy, a - 30, radius * 1.73).y}
+                r={radius}
+                fill="none"
+                stroke={background}
+                strokeWidth={strokeWidth / 1.618}
               />
             </g>
           ))}
