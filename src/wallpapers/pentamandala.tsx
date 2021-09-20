@@ -12,14 +12,21 @@ const angles = [...Array(rayCount).keys()].map(k => (360 / rayCount) * k);
 const pentAngles = angles.filter(a => a % 72 === 0);
 const radiiCount = 7;
 const radii = [...Array(radiiCount).keys()].map(k => r * (PHI - 1) ** k);
+const stroke = 'hsl(285, 100%, 33%)';
+const strokeWidth = 2;
+const fillOpacity = 0.75;
 
 export default function PentaMandala() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox={`420 0 ${height} ${height}`}
+    >
       <defs>
         <linearGradient id="bgGradient" gradientTransform="rotate(90)">
-          <stop offset="0%" stopColor="hsl(45, 100%, 15%)" />
-          <stop offset="100%" stopColor="hsl(0, 100%, 15%" />
+          <stop offset="0%" stopColor="hsl(285, 100%, 15%)" />
+          <stop offset="100%" stopColor="hsl(225, 100%, 15%" />
         </linearGradient>
         <linearGradient id="petalGradient">
           <stop offset="0%" stopColor="gold" />
@@ -55,7 +62,7 @@ export default function PentaMandala() {
             }`,
           ].join(' ')}
           fill="url('#petalGradient')"
-          fillOpacity={0.75}
+          fillOpacity={fillOpacity}
         />
 
         <linearGradient id="chevronGradient">
@@ -65,6 +72,7 @@ export default function PentaMandala() {
         <g id="chevrons">
           {[...Array(4).keys()].map(k => (
             <path
+              key={k}
               d={[
                 `M${pc(cx, cy, angles[0], radii[k + 2]).x},${
                   pc(cx, cy, angles[0], radii[k + 2]).y
@@ -87,13 +95,14 @@ export default function PentaMandala() {
                 'Z',
               ].join(' ')}
               fill="url('#chevronGradient')"
-              fillOpacity={0.75}
+              fillOpacity={fillOpacity}
             />
           ))}
         </g>
         <g id="points">
           {[...Array(4).keys()].map(k => (
             <path
+              key={k}
               d={[
                 `M${pc(cx, cy, angles[29], radii[k + 2]).x},${
                   pc(cx, cy, angles[29], radii[k + 2]).y
@@ -111,13 +120,13 @@ export default function PentaMandala() {
                 'Z',
               ].join(' ')}
               fill="url('#petalGradient')"
-              fillOpacity={0.75}
+              fillOpacity={fillOpacity}
             />
           ))}
         </g>
       </defs>
 
-      <rect width={width} height={height} fill="url(#bgGradient)" />
+      <rect x={420} width={height} height={height} fill="url(#bgGradient)" />
 
       <g id="rotate-90" transform={`rotate(-90, ${cx}, ${cy})`}>
         {/* {radii.map(r => (
@@ -138,26 +147,27 @@ export default function PentaMandala() {
               rotate={0}
             />
           </g>
-        ))}
+        ))} */}
 
         {angles.map((a, i) => (
           <g key={a}>
             <line
               x1={cx}
               y1={cy}
-              x2={pc(cx, cy, a, r).x}
-              y2={pc(cx, cy, a, r).y}
-              stroke="hsl(225, 100%, 100%)"
+              x2={pc(cx, cy, a, radii[1]).x}
+              y2={pc(cx, cy, a, radii[1]).y}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
             />
-            <text
+            {/* <text
               x={pc(cx, cy, a, r + 10).x}
               y={pc(cx, cy, a, r + 10).y}
               fill="white"
             >
               {i}
-            </text>
+            </text> */}
           </g>
-        ))} */}
+        ))}
 
         {/* {pentAngles.map(a => (
           <use
@@ -165,16 +175,17 @@ export default function PentaMandala() {
             transform={`rotate(${a + 36}, ${cx}, ${cy})`}
             fill="none"
             stroke="hsl(35, 100%, 50%)"
-            strokeWidth={3}
+            strokeWidth={strokeWidth}
           />
         ))} */}
 
         {pentAngles.map(a => (
           <use
+            key={a}
             xlinkHref="#petal"
             transform={`rotate(${a}, ${cx}, ${cy})`}
-            stroke="hsl(35, 100%, 75%)"
-            strokeWidth={3}
+            stroke={stroke}
+            strokeWidth={strokeWidth}
           />
         ))}
 
@@ -183,15 +194,15 @@ export default function PentaMandala() {
             <use
               xlinkHref="#chevrons"
               transform={`rotate(${a - 36}, ${cx}, ${cy})`}
-              stroke="hsl(35, 100%, 75%"
-              strokeWidth={3}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
               strokeLinejoin="bevel"
             />
             <use
               xlinkHref="#points"
               transform={`rotate(${a}, ${cx}, ${cy})`}
-              stroke="hsl(35, 100%, 75%"
-              strokeWidth={3}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
             />
           </g>
         ))}
@@ -201,24 +212,25 @@ export default function PentaMandala() {
           cy={cy}
           r={radii[5]}
           rotate={0}
-          stroke="hsl(35, 100%, 75%"
-          strokeWidth={3}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
           fill="url(#petalGradient)"
-          fillOpacity={0.75}
+          fillOpacity={fillOpacity}
         />
 
         {angles.map(
           a =>
             a % 72 !== 0 && (
               <Star
+                key={a}
                 cx={pc(cx, cy, a, radii[0] - radii[6]).x}
                 cy={pc(cx, cy, a, radii[0] - radii[6]).y}
                 r={radii[6]}
                 rotate={a}
-                stroke="hsl(35, 100%, 75%)"
+                stroke={stroke}
                 fill="url(#petalGradient)"
-                fillOpacity={0.75}
-                strokeWidth={3}
+                fillOpacity={fillOpacity}
+                strokeWidth={strokeWidth}
               />
             )
         )}
