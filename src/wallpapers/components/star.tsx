@@ -8,6 +8,7 @@ type StarProps = {
   upright?: boolean;
   transform?: string;
   fill?: string;
+  fillOpacity?: number;
   stroke?: string;
   strokeWidth?: number;
   filter?: string;
@@ -44,6 +45,7 @@ const Star = ({ cx, cy, r, rotate = -90, ...props }: StarProps) => {
         )
         .join(' ')} Z`}
       fill={props.fill}
+      fillOpacity={props.fillOpacity}
       stroke={props.stroke}
       strokeWidth={props.strokeWidth}
       transform={props.transform}
