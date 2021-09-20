@@ -13,11 +13,15 @@ const angles24 = [...Array(24).keys()].map(k => 15 * k);
 
 const stroke = 'white';
 const strokeWidth = 15;
-const background = 'hsl(225, 100%, 15%)';
+const background = 'hsl(45, 50%, 80%)';
 
 export default function FlowerOfLife() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox={`${width / 2 - height / 2} 0 ${height} ${height}`}
+    >
       <defs>
         <linearGradient id="petalGradient">
           <stop offset="0%" stopColor="hsl(45, 100%, 50%)" />
@@ -43,9 +47,12 @@ export default function FlowerOfLife() {
           strokeWidth={strokeWidth}
           fill="url(#petalGradient)"
         />
+        <filter id="blurrer">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+        </filter>
       </defs>
 
-      <rect width={width} height={height} fill={`hsl(225, 100%, 15%)`} />
+      <rect width={width} height={height} fill={background} />
 
       <g id="whole" transform={`rotate(-90, ${cx}, ${cy})`}>
         {angles12.map(
@@ -67,13 +74,13 @@ export default function FlowerOfLife() {
           />
         ))}
         {/* center circle */}
-        <g id="flowerOfLife" fill="green">
+        <g id="flowerOfLife">
           <circle
             cx={cx}
             cy={cy}
             r={radius}
             fill="none"
-            stroke="white"
+            stroke="hsl(45, 100%, 25%)"
             strokeWidth={strokeWidth}
           />
           {/* circles to mask background of petals */}
@@ -94,7 +101,7 @@ export default function FlowerOfLife() {
                 cy={pc(cx, cy, a, radius * 2).y}
                 r={radius}
                 fill="none"
-                stroke="white"
+                stroke="hsl(45, 100%, 25%)"
                 strokeWidth={strokeWidth}
               />
               {/* first ring */}
@@ -103,7 +110,7 @@ export default function FlowerOfLife() {
                 cy={pc(cx, cy, a, radius).y}
                 r={radius}
                 fill="none"
-                stroke="white"
+                stroke="hsl(45, 100%, 25%)"
                 strokeWidth={strokeWidth}
               />
               {/* second ring centered on vesica picses */}
@@ -112,19 +119,19 @@ export default function FlowerOfLife() {
                 cy={pc(cx, cy, a - 30, radius * 1.73).y}
                 r={radius}
                 fill="none"
-                stroke="white"
+                stroke="hsl(45, 100%, 25%)"
                 strokeWidth={strokeWidth}
               />
             </g>
           ))}
         </g>
-        <g id="flowerOfLifeInner" fill="green">
+        <g id="flowerOfLifeInner">
           <circle
             cx={cx}
             cy={cy}
             r={radius}
             fill="none"
-            stroke={background}
+            stroke={`hsl(45, 100%, 50%)`}
             strokeWidth={strokeWidth / 1.618}
           />
           {angles.map(a => (
@@ -135,7 +142,7 @@ export default function FlowerOfLife() {
                 cy={pc(cx, cy, a, radius * 2).y}
                 r={radius}
                 fill="none"
-                stroke={background}
+                stroke={`hsl(45, 100%, 50%)`}
                 strokeWidth={strokeWidth / 1.618}
               />
               {/* first ring */}
@@ -144,7 +151,7 @@ export default function FlowerOfLife() {
                 cy={pc(cx, cy, a, radius).y}
                 r={radius}
                 fill="none"
-                stroke={background}
+                stroke={`hsl(45, 100%, 50%)`}
                 strokeWidth={strokeWidth / 1.618}
               />
               {/* second ring centered on vesica picses */}
@@ -153,7 +160,7 @@ export default function FlowerOfLife() {
                 cy={pc(cx, cy, a - 30, radius * 1.73).y}
                 r={radius}
                 fill="none"
-                stroke={background}
+                stroke={`hsl(45, 100%, 50%)`}
                 strokeWidth={strokeWidth / 1.618}
               />
             </g>
