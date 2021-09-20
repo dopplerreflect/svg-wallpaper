@@ -12,8 +12,8 @@ const angles = [...Array(rayCount).keys()].map(k => (360 / rayCount) * k);
 const pentAngles = angles.filter(a => a % 72 === 0);
 const radiiCount = 7;
 const radii = [...Array(radiiCount).keys()].map(k => r * (PHI - 1) ** k);
-const stroke = 'hsl(285, 100%, 33%)';
-const strokeWidth = 2;
+const stroke = 'hsl(45, 100%, 50%)';
+const strokeWidth = 2.5;
 const fillOpacity = 0.75;
 
 export default function PentaMandala() {
@@ -25,12 +25,12 @@ export default function PentaMandala() {
     >
       <defs>
         <linearGradient id="bgGradient" gradientTransform="rotate(90)">
-          <stop offset="0%" stopColor="hsl(285, 100%, 15%)" />
-          <stop offset="100%" stopColor="hsl(225, 100%, 15%" />
+          <stop offset="0%" stopColor="hsl(285, 100%, 5%)" />
+          <stop offset="100%" stopColor="hsl(225, 100%, 20%" />
         </linearGradient>
         <linearGradient id="petalGradient">
-          <stop offset="0%" stopColor="gold" />
-          <stop offset="100%" stopColor="red" />
+          <stop offset="0%" stopColor={`hsl(45, 100%, 50%)`} />
+          <stop offset="100%" stopColor={`hsl(0, 100%, 20%)`} />
         </linearGradient>
         <path
           id="petal"
@@ -65,10 +65,6 @@ export default function PentaMandala() {
           fillOpacity={fillOpacity}
         />
 
-        <linearGradient id="chevronGradient">
-          <stop offset="0%" stopColor="gold" />
-          <stop offset="100%" stopColor="red" />
-        </linearGradient>
         <g id="chevrons">
           {[...Array(4).keys()].map(k => (
             <path
@@ -94,7 +90,7 @@ export default function PentaMandala() {
                 }`,
                 'Z',
               ].join(' ')}
-              fill="url('#chevronGradient')"
+              fill="url('#petalGradient')"
               fillOpacity={fillOpacity}
             />
           ))}
@@ -152,8 +148,8 @@ export default function PentaMandala() {
         {angles.map((a, i) => (
           <g key={a}>
             <line
-              x1={cx}
-              y1={cy}
+              x1={pc(cx, cy, a, radii[5]).x}
+              y1={pc(cx, cy, a, radii[5]).y}
               x2={pc(cx, cy, a, radii[1]).x}
               y2={pc(cx, cy, a, radii[1]).y}
               stroke={stroke}
