@@ -7,7 +7,7 @@ const cx = width / 2;
 const cy = height / 2;
 const earthRadius = (height / 10) * 4;
 const venusRadius = earthRadius * (PHI - 1);
-
+const degrees = 10;
 export default function Orbits() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
@@ -45,18 +45,15 @@ export default function Orbits() {
         filter="url(#bgFilter)"
         // fill={`hsl(225, 50%, 10%)`}
       />
-      <g
-        transform={`rotate(${180 - 18}, ${cx}, ${cy})`}
-        filter="url(#blurFilter)"
-      >
-        {[...Array(72 * 8).keys()].map((a, i) => (
+      <g transform={`rotate(${90}, ${cx}, ${cy})`} filter="url(#blurFilter)">
+        {[...Array((360 / degrees) * 8).keys()].map((a, i) => (
           <line
             key={i}
-            x1={pc(cx, cy, a * 5, earthRadius).x}
-            y1={pc(cx, cy, a * 5, earthRadius).y}
-            x2={pc(cx, cy, a * 5 * 1.625, venusRadius).x}
-            y2={pc(cx, cy, a * 5 * 1.625, venusRadius).y}
-            stroke={`hsl(${a * 5}, 100%, 50%)`}
+            x1={pc(cx, cy, a * degrees, earthRadius).x}
+            y1={pc(cx, cy, a * degrees, earthRadius).y}
+            x2={pc(cx, cy, a * degrees * 1.625, venusRadius).x}
+            y2={pc(cx, cy, a * degrees * 1.625, venusRadius).y}
+            stroke={`hsl(${a * degrees - 72}, 100%, 50%)`}
             strokeWidth={1}
           />
         ))}
