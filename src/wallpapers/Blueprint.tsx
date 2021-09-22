@@ -32,15 +32,16 @@ export default function Blueprint() {
         <filter id="blueprintPaper">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency={PHIm1 ** 8}
+            baseFrequency={PHIm1}
             stitchTiles="stitch"
           />
           <feSpecularLighting
-            specularExponent="10"
+            specularConstant={PHI}
+            specularExponent={PHI ** 3}
             lightingColor={`hsl(${240}, 100%, 33%)`}
-            surfaceScale={5}
+            surfaceScale={PHI}
           >
-            <fePointLight x={cx} y={cy} z={cy} />
+            <fePointLight x={cx} y={cy} z={cy / 5} />
           </feSpecularLighting>
         </filter>
         <path
@@ -75,46 +76,40 @@ export default function Blueprint() {
         filter="url(#blueprintPaper)"
       />
       {[...Array(12).keys()].map(k => (
+        <g id={`star-group-${k}`} key={k}>
+          <Star
+            key={k}
+            cx={cx}
+            cy={cy}
+            r={gr[2]}
+            rotate={(360 / 12) * k}
+            fill={`hsl(${240}, 100%, 50%)`}
+            fillOpacity={1 / 6}
+            mask="url(#centerCircleMask)"
+          />
+          <Star
+            key={k}
+            cx={cx}
+            cy={cy}
+            r={gr[2]}
+            rotate={(360 / 12) * k}
+            fill="none"
+            stroke={strokeColor}
+          />
+        </g>
+      ))}
+      {[gr[2], gr[1]].map(r => (
         <Star
-          key={k}
           cx={cx}
           cy={cy}
-          r={gr[2]}
-          rotate={(360 / 12) * k}
-          fill={`hsl(${240}, 100%, 50%)`}
-          fillOpacity={1 / 6}
+          r={r}
+          rotate={-90}
+          fill={`hsl(${240}, 100%, 20%)`}
+          fillOpacity={0.25}
+          stroke={strokeColor}
           mask="url(#centerCircleMask)"
         />
       ))}
-      {[...Array(12).keys()].map(k => (
-        <Star
-          key={k}
-          cx={cx}
-          cy={cy}
-          r={gr[2]}
-          rotate={(360 / 12) * k}
-          fill="none"
-          stroke={strokeColor}
-        />
-      ))}
-      <Star
-        cx={cx}
-        cy={cy}
-        r={gr[1]}
-        rotate={-90}
-        fill={`hsl(${240}, 100%, 00%)`}
-        fillOpacity={0.25}
-        stroke={strokeColor}
-      />
-      <Star
-        cx={cx}
-        cy={cy}
-        r={gr[2]}
-        rotate={-90}
-        fill={`hsl(${240}, 100%, 0%)`}
-        fillOpacity={0.25}
-        stroke={strokeColor}
-      />
 
       {angles.map(
         (a, i) =>
@@ -123,7 +118,7 @@ export default function Blueprint() {
               key={i}
               xlinkHref="#petal"
               transform={`rotate(${a}, ${cx}, ${cy})`}
-              fill={`hsl(${60}, 100%, 25%)`}
+              fill={`hsl(${60}, 100%, 50%)`}
               fillOpacity={0.25}
             />
           )
@@ -135,8 +130,8 @@ export default function Blueprint() {
               key={i}
               xlinkHref="#petal"
               transform={`rotate(${a}, ${cx}, ${cy})`}
-              fill={`hsl(${240}, 100%, 25%)`}
-              fillOpacity={0.5}
+              fill={`hsl(${240}, 100%, 50%)`}
+              fillOpacity={0.25}
             />
           )
       )}
