@@ -1,5 +1,6 @@
 import React from 'react';
 import { pc } from '../utils';
+import Hexagon from './components/hexagon';
 import Star from './components/star';
 
 const PHI = (Math.sqrt(5) + 1) / 2;
@@ -8,13 +9,16 @@ const width = 1080;
 const height = 1080;
 const cx = width / 2;
 const cy = height / 2;
+const outerRadius = (height / 10) * 4;
 const numRings = 5;
-const gr = [...Array(numRings).keys()].map(k => (height / 10) * 4 * PHIm1 ** k);
-const sr = [...Array(12).keys()].map(k => gr[0] - (k + 2) ** (PHI ** PHI));
+const gr = [...Array(numRings).keys()].map(k => outerRadius * PHIm1 ** k);
+const sr = [...Array(12).keys()].map(
+  k => outerRadius - (k + 2) ** (PHI ** PHI)
+);
 const numAngles = 60;
 const angles = [...Array(numAngles).keys()].map(k => (360 / numAngles) * k);
 
-const strokeColor = 'hsl(240, 100%, 75%)';
+const strokeColor = 'hsl(240, 100%, 66%)';
 
 const p = (a: number, r: number) => ({
   x: pc(cx, cy, a, r).x,
@@ -32,18 +36,26 @@ export default function Blueprint() {
         <filter id="blueprintPaper">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency={PHIm1}
+            baseFrequency={PHIm1 ** 4}
             stitchTiles="stitch"
           />
           <feSpecularLighting
-            specularConstant={PHI}
+            specularConstant={PHI ** 2}
             specularExponent={PHI ** 3}
-            lightingColor={`hsl(${240}, 100%, 33%)`}
+            lightingColor={`hsl(${240}, 50%, 33%)`}
             surfaceScale={PHI}
           >
-            <fePointLight x={cx} y={cy} z={cy / 5} />
+            <fePointLight x={cx} y={cy} z={cy / 8} />
           </feSpecularLighting>
         </filter>
+        <linearGradient id="frontPetalGradient" gradientTransform="rotate(90)">
+          <stop offset="0%" stopColor={`hsl(60, 100%, 50%)`} />
+          <stop offset="75%" stopColor={`hsl(0, 100%, 50%)`} />
+        </linearGradient>
+        <linearGradient id="rearPetalGradient" gradientTransform="rotate(90)">
+          <stop offset="0%" stopColor={`hsl(240, 100%, 50%)`} />
+          <stop offset="75%" stopColor={`hsl(180, 100%, 50%)`} />
+        </linearGradient>
         <path
           id="petal"
           d={[
@@ -61,12 +73,37 @@ export default function Blueprint() {
             ` ${p(angles[45], sr[11]).x},${p(angles[45], sr[11]).y}`,
           ].join('')}
           stroke={strokeColor}
+          strokeWidth="1"
           // fill="none"
         />
         <mask id="centerCircleMask">
           <rect width={width} height={height} fill="white" />
           <circle cx={cx} cy={cy} r={gr[4]} fill="black" />
         </mask>
+        <filter id="mandala">
+          <feFlood
+            result="flood"
+            floodColor="hsl(0, 100%, 25%)"
+            floodOpacity="1"
+          />
+          <feComposite
+            in="flood"
+            in2="SourceGraphic"
+            operator="in"
+            result="mask"
+          />
+          <feMorphology
+            in="mask"
+            operator="dilate"
+            radius="2"
+            result="dilated"
+          />
+          <feGaussianBlur in="dilated" stdDeviation="8" result="glow" />
+          <feMerge>
+            <feMergeNode in="glow" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
       <rect width={width} height={height} />
       <rect
@@ -75,72 +112,73 @@ export default function Blueprint() {
         height={height}
         filter="url(#blueprintPaper)"
       />
-      {[...Array(12).keys()].map(k => (
-        <g id={`star-group-${k}`} key={k}>
+      <g id="mandala" filter="url(#mandala)">
+        {angles.map(
+          (a, i) =>
+            i % 2 === 1 && (
+              <use
+                key={i}
+                xlinkHref="#petal"
+                transform={`rotate(${a}, ${cx}, ${cy})`}
+                fill="url(#rearPetalGradient)"
+                fillOpacity="0.85"
+              />
+            )
+        )}
+        {angles.map(
+          (a, i) =>
+            i % 2 === 0 && (
+              <use
+                key={i}
+                xlinkHref="#petal"
+                transform={`rotate(${a}, ${cx}, ${cy})`}
+                fill="url(#frontPetalGradient)"
+                fillOpacity="0.85"
+              />
+            )
+        )}
+        {[gr[2], gr[1]].map(r => (
           <Star
-            key={k}
+            key={r}
             cx={cx}
             cy={cy}
-            r={gr[2]}
-            rotate={(360 / 12) * k}
-            fill={`hsl(${240}, 100%, 50%)`}
-            fillOpacity={1 / 6}
+            r={r}
+            rotate={-90}
+            fill={`hsl(${240}, 100%, 20%)`}
+            fillOpacity={0.5}
+            stroke={strokeColor}
             mask="url(#centerCircleMask)"
           />
-          <Star
-            key={k}
-            cx={cx}
-            cy={cy}
-            r={gr[2]}
-            rotate={(360 / 12) * k}
-            fill="none"
-            stroke={strokeColor}
-          />
-        </g>
-      ))}
-      {[gr[2], gr[1]].map(r => (
-        <Star
-          cx={cx}
-          cy={cy}
-          r={r}
-          rotate={-90}
-          fill={`hsl(${240}, 100%, 20%)`}
-          fillOpacity={0.25}
-          stroke={strokeColor}
-          mask="url(#centerCircleMask)"
-        />
-      ))}
+        ))}
 
-      {angles.map(
-        (a, i) =>
-          i % 2 === 1 && (
-            <use
-              key={i}
-              xlinkHref="#petal"
-              transform={`rotate(${a}, ${cx}, ${cy})`}
-              fill={`hsl(${60}, 100%, 50%)`}
-              fillOpacity={0.25}
+        {[...Array(12).keys()].map(k => (
+          <g key={k}>
+            <Star
+              cx={cx}
+              cy={cy}
+              r={gr[2]}
+              rotate={(360 / 12) * k}
+              fill={`hsl(240, 100%, 50%)`}
+              fillOpacity={1 / 12}
+              mask="url(#centerCircleMask)"
             />
-          )
-      )}
-      {angles.map(
-        (a, i) =>
-          i % 2 === 0 && (
-            <use
-              key={i}
-              xlinkHref="#petal"
-              transform={`rotate(${a}, ${cx}, ${cy})`}
-              fill={`hsl(${240}, 100%, 50%)`}
-              fillOpacity={0.25}
+            <Star
+              cx={cx}
+              cy={cy}
+              r={gr[2]}
+              rotate={(360 / 12) * k}
+              fill="none"
+              stroke={strokeColor}
             />
-          )
-      )}
-      {/* <Rays />
-      <RayLegend />
-      <GoldenRings />
-      <GoldenLegend />
-      <SpherishRings />
-      <SpherishLegend /> */}
+          </g>
+        ))}
+      </g>
+      {/* <Rays /> */}
+      {/* <RayLegend /> */}
+      {/* <GoldenRings /> */}
+      {/* <GoldenLegend /> */}
+      {/* <SpherishRings /> */}
+      {/* <SpherishLegend /> */}
     </svg>
   );
 }
