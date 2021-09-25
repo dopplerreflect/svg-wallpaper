@@ -12,13 +12,14 @@ const cy = height / 2;
 const outerRadius = (height / 10) * 4;
 const numRings = 5;
 const gr = [...Array(numRings).keys()].map(k => outerRadius * PHIm1 ** k);
-const sr = [...Array(12).keys()].map(
-  k => outerRadius - (k + 2) ** (PHI ** PHI)
+const sr = [...Array(13).keys()].map(
+  k => outerRadius - (PHI ** k * height) / 1080
 );
 const numAngles = 60;
 const angles = [...Array(numAngles).keys()].map(k => (360 / numAngles) * k);
 
-const strokeColor = 'hsl(240, 100%, 66%)';
+const strokeColor = 'hsl(270, 100%, 66%)';
+const strokeWidth = (height / 1080) * 1;
 
 const p = (a: number, r: number) => ({
   x: pc(cx, cy, a, r).x,
@@ -38,6 +39,7 @@ export default function Blueprint() {
             type="fractalNoise"
             baseFrequency={PHIm1 ** 4}
             stitchTiles="stitch"
+            seed="2"
           />
           <feSpecularLighting
             specularConstant={PHI ** 2}
@@ -60,20 +62,20 @@ export default function Blueprint() {
           id="petal"
           d={[
             `M${p(angles[45], gr[0]).x},${p(angles[45], gr[0]).y}`,
-            `C${p(angles[45], sr[3]).x},${p(angles[45], sr[3]).y}`,
-            ` ${p(angles[46], sr[3]).x},${p(angles[46], sr[3]).y}`,
-            ` ${p(angles[46], sr[5]).x},${p(angles[46], sr[5]).y}`,
-            `S${p(angles[45], sr[9]).x},${p(angles[45], sr[9]).y}`,
-            ` ${p(angles[45], sr[11]).x},${p(angles[45], sr[11]).y}`,
+            `C${p(angles[45], sr[8]).x},${p(angles[45], sr[8]).y}`,
+            ` ${p(angles[46], sr[8]).x},${p(angles[46], sr[8]).y}`,
+            ` ${p(angles[46], sr[9]).x},${p(angles[46], sr[9]).y}`,
+            `S${p(angles[45], sr[10]).x},${p(angles[45], sr[10]).y}`,
+            ` ${p(angles[45], gr[2]).x},${p(angles[45], gr[2]).y}`,
             `M${p(angles[45], gr[0]).x},${p(angles[45], gr[0]).y}`,
-            `C${p(angles[45], sr[3]).x},${p(angles[45], sr[3]).y}`,
-            ` ${p(angles[44], sr[3]).x},${p(angles[44], sr[3]).y}`,
-            ` ${p(angles[44], sr[5]).x},${p(angles[44], sr[5]).y}`,
-            `S${p(angles[45], sr[9]).x},${p(angles[45], sr[9]).y}`,
-            ` ${p(angles[45], sr[11]).x},${p(angles[45], sr[11]).y}`,
+            `C${p(angles[45], sr[8]).x},${p(angles[45], sr[8]).y}`,
+            ` ${p(angles[44], sr[8]).x},${p(angles[44], sr[8]).y}`,
+            ` ${p(angles[44], sr[9]).x},${p(angles[44], sr[9]).y}`,
+            `S${p(angles[45], sr[10]).x},${p(angles[45], sr[10]).y}`,
+            ` ${p(angles[45], gr[2]).x},${p(angles[45], gr[2]).y}`,
           ].join('')}
           stroke={strokeColor}
-          strokeWidth="1"
+          strokeWidth={strokeWidth}
           // fill="none"
         />
         <mask id="centerCircleMask">
@@ -95,10 +97,14 @@ export default function Blueprint() {
           <feMorphology
             in="mask"
             operator="dilate"
-            radius="2"
+            radius={strokeWidth * 2}
             result="dilated"
           />
-          <feGaussianBlur in="dilated" stdDeviation="8" result="glow" />
+          <feGaussianBlur
+            in="dilated"
+            stdDeviation={strokeWidth * 10}
+            result="glow"
+          />
           <feMerge>
             <feMergeNode in="glow" />
             <feMergeNode in="SourceGraphic" />
@@ -112,7 +118,7 @@ export default function Blueprint() {
         height={height}
         filter="url(#blueprintPaper)"
       />
-      <g id="mandala" filter="url(#mandala)">
+      <g id="mandala" filter="url(#mandala)" style={{ display: 'inline' }}>
         {angles.map(
           (a, i) =>
             i % 2 === 1 && (
@@ -147,6 +153,7 @@ export default function Blueprint() {
             fill={`hsl(${240}, 100%, 20%)`}
             fillOpacity={0.5}
             stroke={strokeColor}
+            strokeWidth={strokeWidth}
             mask="url(#centerCircleMask)"
           />
         ))}
@@ -169,6 +176,7 @@ export default function Blueprint() {
               rotate={(360 / 12) * k}
               fill="none"
               stroke={strokeColor}
+              strokeWidth={strokeWidth}
             />
           </g>
         ))}
