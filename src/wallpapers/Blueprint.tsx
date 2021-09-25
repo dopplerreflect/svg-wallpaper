@@ -18,7 +18,7 @@ const sr = [...Array(13).keys()].map(
 const numAngles = 60;
 const angles = [...Array(numAngles).keys()].map(k => (360 / numAngles) * k);
 
-const strokeColor = 'hsl(270, 100%, 66%)';
+const strokeColor = 'hsl(30, 100%, 75%)';
 const strokeWidth = (height / 1080) * 1;
 
 const p = (a: number, r: number) => ({
@@ -150,7 +150,7 @@ export default function Blueprint() {
             cy={cy}
             r={r}
             rotate={-90}
-            fill={`hsl(${240}, 100%, 20%)`}
+            fill={`hsl(${200}, 100%, 20%)`}
             fillOpacity={0.5}
             stroke={strokeColor}
             strokeWidth={strokeWidth}
@@ -165,7 +165,7 @@ export default function Blueprint() {
               cy={cy}
               r={gr[2]}
               rotate={(360 / 12) * k}
-              fill={`hsl(240, 100%, 50%)`}
+              fill={`hsl(30, 100%, 50%)`}
               fillOpacity={1 / 12}
               mask="url(#centerCircleMask)"
             />
@@ -176,7 +176,7 @@ export default function Blueprint() {
               rotate={(360 / 12) * k}
               fill="none"
               stroke={strokeColor}
-              strokeWidth={strokeWidth}
+              strokeWidth={strokeWidth / 2.5}
             />
           </g>
         ))}
