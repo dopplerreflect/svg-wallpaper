@@ -1,33 +1,26 @@
 import React from 'react';
-import { pc } from '../utils';
-import Hexagon from './components/hexagon';
 import Star from './components/star';
 
-const PHI = (Math.sqrt(5) + 1) / 2;
-const PHIm1 = PHI - 1;
-const width = 1080;
-const height = 1080;
-const cx = width / 2;
-const cy = height / 2;
-const outerRadius = (height / 10) * 4;
-const numRings = 5;
-const gr = [...Array(numRings).keys()].map(k => outerRadius * PHIm1 ** k);
-const sr = [...Array(13).keys()].map(
-  k => outerRadius - outerRadius * PHIm1 ** k
-);
-// const sr = [...Array(13).keys()].map(
-//   k => outerRadius - (PHI ** k * height) / 1080
-// );
-const numAngles = 60;
-const angles = [...Array(numAngles).keys()].map(k => (360 / numAngles) * k);
-
-const strokeColor = 'hsl(30, 100%, 75%)';
-const strokeWidth = (height / 1080) * 1;
-
-const p = (a: number, r: number) => ({
-  x: pc(cx, cy, a, r).x,
-  y: pc(cx, cy, a, r).y,
-});
+import {
+  width,
+  height,
+  PHI,
+  PHIm1,
+  cx,
+  cy,
+  p,
+  angles,
+  sr,
+  gr,
+  strokeColor,
+  strokeWidth,
+  Rays,
+  RayLegend,
+  GoldenRings,
+  GoldenLegend,
+  SpherishRings,
+  SpherishLegend,
+} from './components/Blueprint';
 
 export default function Blueprint() {
   return (
@@ -184,109 +177,12 @@ export default function Blueprint() {
           </g>
         ))}
       </g>
-      {/* <Rays />
-      <RayLegend />
-      <GoldenRings />
-      <GoldenLegend />
-      <SpherishRings />
-      <SpherishLegend /> */}
+      {/* <Rays /> */}
+      {/* <RayLegend /> */}
+      {/* <GoldenRings /> */}
+      {/* <GoldenLegend /> */}
+      {/* <SpherishRings /> */}
+      {/* <SpherishLegend /> */}
     </svg>
   );
 }
-
-const Rays = () => (
-  <>
-    {angles.map(a => (
-      <line
-        key={a}
-        x1={pc(cx, cy, a, gr[gr.length - 1]).x}
-        y1={pc(cx, cy, a, gr[gr.length - 1]).y}
-        x2={pc(cx, cy, a, gr[0]).x}
-        y2={pc(cx, cy, a, gr[0]).y}
-        stroke={strokeColor}
-      />
-    ))}
-  </>
-);
-
-const RayLegend = () => (
-  <>
-    {angles.map((a, i) => (
-      <text
-        key={i}
-        x={pc(cx, cy, a, gr[0] + 10).x}
-        y={pc(cx, cy, a, gr[0] + 10).y}
-        dominantBaseline="middle"
-        textAnchor="middle"
-        fill={strokeColor}
-      >
-        {i}
-      </text>
-    ))}
-  </>
-);
-const GoldenRings = () => (
-  <>
-    {gr.map(r => (
-      <circle key={r} cx={cx} cy={cy} r={r} stroke={strokeColor} fill="none" />
-    ))}
-  </>
-);
-
-const GoldenLegend = () => (
-  <>
-    {gr.map((r, i) => (
-      <g key={r} id={`spherishRing-${r}`}>
-        <line
-          key={r}
-          x1={cx}
-          y1={cy - r}
-          x2={cx + gr[0] + 40}
-          y2={cy - r}
-          stroke={strokeColor}
-        />
-        <text
-          x={cx + gr[0] + 50}
-          y={cy - r}
-          fill={strokeColor}
-          dominantBaseline="middle"
-        >
-          {i}
-        </text>
-      </g>
-    ))}
-  </>
-);
-
-const SpherishRings = () => (
-  <>
-    {sr.map((r, i) => (
-      <circle key={r} cx={cx} cy={cy} r={r} stroke={strokeColor} fill="none" />
-    ))}
-  </>
-);
-
-const SpherishLegend = () => (
-  <>
-    {sr.map((r, i) => (
-      <g key={r} id={`spherishRing-${r}`}>
-        <line
-          key={r}
-          x1={cx - gr[0] - 40}
-          y1={cy - r}
-          x2={cx}
-          y2={cy - r}
-          stroke={strokeColor}
-        />
-        <text
-          x={cx - gr[0] - 60}
-          y={cy - r}
-          fill={strokeColor}
-          dominantBaseline="middle"
-        >
-          {i}
-        </text>
-      </g>
-    ))}
-  </>
-);
