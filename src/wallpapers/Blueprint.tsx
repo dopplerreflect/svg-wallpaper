@@ -13,8 +13,11 @@ const outerRadius = (height / 10) * 4;
 const numRings = 5;
 const gr = [...Array(numRings).keys()].map(k => outerRadius * PHIm1 ** k);
 const sr = [...Array(13).keys()].map(
-  k => outerRadius - (PHI ** k * height) / 1080
+  k => outerRadius - outerRadius * PHIm1 ** k
 );
+// const sr = [...Array(13).keys()].map(
+//   k => outerRadius - (PHI ** k * height) / 1080
+// );
 const numAngles = 60;
 const angles = [...Array(numAngles).keys()].map(k => (360 / numAngles) * k);
 
@@ -62,17 +65,17 @@ export default function Blueprint() {
           id="petal"
           d={[
             `M${p(angles[45], gr[0]).x},${p(angles[45], gr[0]).y}`,
-            `C${p(angles[45], sr[8]).x},${p(angles[45], sr[8]).y}`,
-            ` ${p(angles[46], sr[8]).x},${p(angles[46], sr[8]).y}`,
-            ` ${p(angles[46], sr[9]).x},${p(angles[46], sr[9]).y}`,
-            `S${p(angles[45], sr[10]).x},${p(angles[45], sr[10]).y}`,
-            ` ${p(angles[45], gr[2]).x},${p(angles[45], gr[2]).y}`,
+            `C${p(angles[45], sr[7]).x},${p(angles[45], sr[7]).y}`,
+            ` ${p(angles[46], sr[7]).x},${p(angles[46], sr[7]).y}`,
+            ` ${p(angles[46], sr[5]).x},${p(angles[46], sr[5]).y}`,
+            `S${p(angles[45], sr[3]).x},${p(angles[45], sr[3]).y}`,
+            ` ${p(angles[45], sr[1]).x},${p(angles[45], sr[1]).y}`,
             `M${p(angles[45], gr[0]).x},${p(angles[45], gr[0]).y}`,
-            `C${p(angles[45], sr[8]).x},${p(angles[45], sr[8]).y}`,
-            ` ${p(angles[44], sr[8]).x},${p(angles[44], sr[8]).y}`,
-            ` ${p(angles[44], sr[9]).x},${p(angles[44], sr[9]).y}`,
-            `S${p(angles[45], sr[10]).x},${p(angles[45], sr[10]).y}`,
-            ` ${p(angles[45], gr[2]).x},${p(angles[45], gr[2]).y}`,
+            `C${p(angles[45], sr[7]).x},${p(angles[45], sr[7]).y}`,
+            ` ${p(angles[44], sr[7]).x},${p(angles[44], sr[7]).y}`,
+            ` ${p(angles[44], sr[5]).x},${p(angles[44], sr[5]).y}`,
+            `S${p(angles[45], sr[3]).x},${p(angles[45], sr[3]).y}`,
+            ` ${p(angles[45], sr[1]).x},${p(angles[45], sr[1]).y}`,
           ].join('')}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -181,12 +184,12 @@ export default function Blueprint() {
           </g>
         ))}
       </g>
-      {/* <Rays /> */}
-      {/* <RayLegend /> */}
-      {/* <GoldenRings /> */}
-      {/* <GoldenLegend /> */}
-      {/* <SpherishRings /> */}
-      {/* <SpherishLegend /> */}
+      {/* <Rays />
+      <RayLegend />
+      <GoldenRings />
+      <GoldenLegend />
+      <SpherishRings />
+      <SpherishLegend /> */}
     </svg>
   );
 }
