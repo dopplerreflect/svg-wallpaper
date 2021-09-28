@@ -12,7 +12,6 @@ import {
   angles,
   sr,
   gr,
-  strokeColor,
   strokeWidth,
   Rays,
   RayLegend,
@@ -21,6 +20,9 @@ import {
   SpherishRings,
   SpherishLegend,
 } from './components/Blueprint';
+
+const baseHue = 0;
+const strokeColor = `hsl(${baseHue + 30}, 100%, 50%)`;
 
 export default function Blueprint() {
   return (
@@ -40,23 +42,23 @@ export default function Blueprint() {
           <feSpecularLighting
             specularConstant={PHI ** 2}
             specularExponent={PHI ** 3}
-            lightingColor={`hsl(${240}, 50%, 33%)`}
+            lightingColor={`hsl(${baseHue + 240}, 50%, 33%)`}
             surfaceScale={PHI}
           >
             <fePointLight x={cx} y={cy} z={cy / 8} />
           </feSpecularLighting>
         </filter>
         <linearGradient id="frontPetalGradient" gradientTransform="rotate(90)">
-          <stop offset="0%" stopColor={`hsl(60, 100%, 50%)`} />
-          <stop offset="75%" stopColor={`hsl(0, 100%, 50%)`} />
+          <stop offset="0%" stopColor={`hsl(${baseHue + 60}, 100%, 50%)`} />
+          <stop offset="61%" stopColor={`hsl(${baseHue + 0}, 100%, 50%)`} />
         </linearGradient>
         <linearGradient id="rearPetalGradient" gradientTransform="rotate(90)">
-          <stop offset="0%" stopColor={`hsl(240, 100%, 50%)`} />
-          <stop offset="75%" stopColor={`hsl(180, 100%, 50%)`} />
+          <stop offset="0%" stopColor={`hsl(${baseHue + 240}, 100%, 50%)`} />
+          <stop offset="61%" stopColor={`hsl(${baseHue + 180}, 100%, 50%)`} />
         </linearGradient>
         <linearGradient id="backgroundGradient" gradientTransform="rotate(90)">
-          <stop offset="00%" stopColor={`hsl(0, 100%, 10%)`} />
-          <stop offset="100%" stopColor={`hsl(240, 100%, 20%)`} />
+          <stop offset="00%" stopColor={`hsl(${baseHue + 0}, 100%, 10%)`} />
+          <stop offset="100%" stopColor={`hsl(${baseHue + 240}, 100%, 20%)`} />
         </linearGradient>
         <path
           id="petal"
@@ -102,7 +104,7 @@ export default function Blueprint() {
           />
           <feGaussianBlur
             in="dilated"
-            stdDeviation={strokeWidth * 10}
+            stdDeviation={strokeWidth * 5}
             result="glow"
           />
           <feMerge>
@@ -150,7 +152,7 @@ export default function Blueprint() {
             cy={cy}
             r={r}
             rotate={-90}
-            fill={`hsl(${200}, 100%, 20%)`}
+            fill={`hsl(${baseHue + 200}, 100%, 20%)`}
             fillOpacity={0.5}
             stroke={strokeColor}
             strokeWidth={strokeWidth}
@@ -165,7 +167,7 @@ export default function Blueprint() {
               cy={cy}
               r={gr[2]}
               rotate={(360 / 12) * k}
-              fill={`hsl(30, 100%, 50%)`}
+              fill={`hsl(${baseHue + 30}, 100%, 50%)`}
               fillOpacity={1 / 12}
               mask="url(#centerCircleMask)"
             />
