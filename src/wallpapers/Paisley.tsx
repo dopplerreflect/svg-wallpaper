@@ -36,7 +36,7 @@ export default function Paisley() {
             `S${ps(310, gr[1])}`,
             `${ps(5, gr[2])}`,
             `A${gr[2]},${gr[2]} 0 1 1 ${ps(190, gr[2])}`,
-            `S${ps(255, gr[0])}`,
+            `S${ps(258, gr[0])}`,
             `${ps(330, gr[0])}`,
             `M${ps(0, gr[3])}`,
             `A${gr[3]},${gr[3]} 1 1 0 ${ps(-359.9, gr[3])}`,
