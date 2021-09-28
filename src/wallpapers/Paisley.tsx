@@ -39,8 +39,7 @@ export default function Paisley() {
             `S${ps(255, gr[0])}`,
             `${ps(330, gr[0])}`,
             `M${ps(0, gr[3])}`,
-            `A${gr[3]},${gr[3]} 0 1 0 ${ps(-359, gr[3])}`,
-            'Z',
+            `A${gr[3]},${gr[3]} 1 1 0 ${ps(-359.9, gr[3])}`,
           ].join()}
           stroke={`hsl(${basehue + 0}, 100%, 15%)`}
           strokeWidth={cy / 80}
