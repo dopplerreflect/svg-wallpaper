@@ -57,13 +57,13 @@ export default function Blueprint() {
         <path
           id="petal"
           d={[
-            `M${p(angles[45], gr[0]).x},${p(angles[45], gr[0]).y}`,
+            `M${p(angles[45], sr[12]).x},${p(angles[45], sr[12]).y}`,
             `C${p(angles[45], sr[7]).x},${p(angles[45], sr[7]).y}`,
             ` ${p(angles[46], sr[7]).x},${p(angles[46], sr[7]).y}`,
             ` ${p(angles[46], sr[5]).x},${p(angles[46], sr[5]).y}`,
             `S${p(angles[45], sr[3]).x},${p(angles[45], sr[3]).y}`,
             ` ${p(angles[45], sr[1]).x},${p(angles[45], sr[1]).y}`,
-            `M${p(angles[45], gr[0]).x},${p(angles[45], gr[0]).y}`,
+            `M${p(angles[45], sr[12]).x},${p(angles[45], sr[12]).y}`,
             `C${p(angles[45], sr[7]).x},${p(angles[45], sr[7]).y}`,
             ` ${p(angles[44], sr[7]).x},${p(angles[44], sr[7]).y}`,
             ` ${p(angles[44], sr[5]).x},${p(angles[44], sr[5]).y}`,
