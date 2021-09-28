@@ -54,6 +54,10 @@ export default function Blueprint() {
           <stop offset="0%" stopColor={`hsl(240, 100%, 50%)`} />
           <stop offset="75%" stopColor={`hsl(180, 100%, 50%)`} />
         </linearGradient>
+        <linearGradient id="backgroundGradient" gradientTransform="rotate(90)">
+          <stop offset="00%" stopColor={`hsl(0, 100%, 10%)`} />
+          <stop offset="100%" stopColor={`hsl(240, 100%, 20%)`} />
+        </linearGradient>
         <path
           id="petal"
           d={[
@@ -107,7 +111,7 @@ export default function Blueprint() {
           </feMerge>
         </filter>
       </defs>
-      <rect width={width} height={height} />
+      <rect width={width} height={height} fill="url(#backgroundGradient)" />
       <rect
         id="bgRect"
         width={width}
