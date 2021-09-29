@@ -2,8 +2,8 @@ import React from 'react';
 import Star from './components/star';
 const PHI = (1 + Math.sqrt(5)) / 2;
 const negPHI = PHI - 1;
-const width = 6000;
-const height = 4800;
+const width = 1920;
+const height = 1080;
 const cx = width / 2;
 const cy = height / 2;
 const radii = Array.from(Array(12)).map((_, i) => cy * negPHI ** i);
@@ -11,6 +11,12 @@ const angles = Array.from(Array(10)).map((_, i) => i * (360 / 10));
 const circleDivisions = 89;
 const radials = 34;
 const pc = (angle: number, radius: number) => {
+  return {
+    x: cx + radius * Math.cos(angle * (Math.PI / 180)),
+    y: cy + radius * Math.sin(angle * (Math.PI / 180)),
+  };
+};
+export const p = (angle: number, radius: number) => {
   return {
     x: cx + radius * Math.cos(angle * (Math.PI / 180)),
     y: cy + radius * Math.sin(angle * (Math.PI / 180)),
@@ -36,6 +42,26 @@ export default function SpiralStar() {
       </defs>
       <rect width={width} height={height} fill="url(#gradient)" />
       <g id="sunflower-bg">
+        {[...Array(540).keys()].map(i => {
+          let angle = Math.round((i * 137.5006) % 360);
+          let r = ((cy - cy / 5) / 180) * i;
+          return (
+            <g key={i}>
+              <Star
+                cy={p(angle, r).y}
+                cx={p(angle, r).x}
+                r={r / 15}
+                rotate={angle}
+                stroke={`hsl(${(r * 137.5) / 2160 + 200}, 100%, 33%)`}
+                strokeWidth={r / 180}
+                fill={`hsl(${(r * 137.5) / 2160 + 200}, 100%, 50%)`}
+                fillOpacity={0.25}
+              />
+            </g>
+          );
+        })}
+      </g>
+      {/* <g id="sunflower-bg">
         {[...Array(circleDivisions).keys()].map(o => {
           let angle = (360 / circleDivisions) * o + 1;
           let radian = (angle * Math.PI) / 180;
@@ -72,20 +98,7 @@ export default function SpiralStar() {
             </g>
           );
         })}
-      </g>
-      <g id="circles" transform={`rotate(-90, ${cx}, ${cy})`}>
-        {radii.map(r => (
-          <circle
-            key={r}
-            cx={cx}
-            cy={cy}
-            r={r}
-            stroke={`hsl(45, 100%, 50%)`}
-            strokeWidth={6}
-            fill="none"
-          />
-        ))}
-      </g>
+      </g> */}
       <g id="star" transform={`rotate(-90, ${cx}, ${cy})`}>
         <path
           d={`M${pc(angles[0], radii[0]).x},${pc(angles[0], radii[0]).y} ${[
@@ -99,7 +112,7 @@ export default function SpiralStar() {
             )
             .join(' ')} Z`}
           stroke="hsl(45, 100%, 50%)"
-          strokeWidth={6}
+          strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="bevel"
           transform={`rotate(0, ${cx}, ${cy})`}
@@ -107,7 +120,41 @@ export default function SpiralStar() {
           fillOpacity={0.5}
         />
       </g>
+      <g id="circles" transform={`rotate(-90, ${cx}, ${cy})`}>
+        {radii.map((r, i) => (
+          <circle
+            key={r}
+            cx={cx}
+            cy={cy}
+            r={r}
+            stroke={`hsl(45, 100%, 50%)`}
+            strokeWidth={2}
+            fill="none"
+          />
+        ))}
+      </g>
       <g id="sunflower" clipPath="url(#circleClip)">
+        {[...Array(540).keys()].map(i => {
+          let angle = Math.round((i * 137.5006) % 360);
+          let r = ((cy - cy / 5) / 360) * i;
+          return (
+            <g key={i}>
+              <Star
+                cy={p(angle, r).y}
+                cx={p(angle, r).x}
+                r={r / 15}
+                rotate={angle}
+                // stroke={`hsl(${(r * 137.5) / 360 + 300}, 100%, 75%)`}
+                stroke={`hsl(${(r * 137.5) / 2160 + 0}, 100%, 50%)`}
+                strokeWidth={r / 180}
+                fill={`hsl(${(r * 137.5) / 2160 + 0}, 100%, 20%)`}
+                fillOpacity={1}
+              />
+            </g>
+          );
+        })}
+      </g>
+      {/* <g id="sunflower" clipPath="url(#circleClip)">
         {[...Array(circleDivisions).keys()].map(o => {
           let angle = (360 / circleDivisions) * o + 1;
           let radian = (angle * Math.PI) / 180;
@@ -144,7 +191,7 @@ export default function SpiralStar() {
             </g>
           );
         })}
-      </g>
+      </g> */}
     </svg>
   );
 }

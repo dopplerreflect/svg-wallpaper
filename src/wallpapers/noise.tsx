@@ -1,7 +1,7 @@
 import React from 'react';
 import Star from './components/star';
 
-const width = 1920;
+const width = 1080;
 const height = 1080;
 const cx = width / 2;
 const cy = height / 2;
@@ -12,14 +12,13 @@ const pc = (angle: number) => ({
   x: cx + cy * Math.cos(angle * (Math.PI / 180)),
   y: cy + cy * Math.sin(angle * (Math.PI / 180)),
 });
-console.log(angles);
 export default function Noise() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
       <defs>
         <filter id="filter-1">
           <feTurbulence
-            baseFrequency={0.0125}
+            baseFrequency={(PHI - 1) ** 2}
             type="fractalNoise"
             result="noise"
           />
@@ -28,7 +27,7 @@ export default function Noise() {
               key={angle}
               in="noise"
               lightingColor={`hsl(${angle}, 100%, 30%)`}
-              surfaceScale="20"
+              surfaceScale="3"
               result={`result-${angle}`}
             >
               <feSpotLight
@@ -49,50 +48,42 @@ export default function Noise() {
             ))}
           </feMerge>
         </filter>
+        <filter id="starOutline">
+          <feFlood floodColor="hsl(240, 100%, 5%)" result="flood" />
+          <feComposite
+            in="flood"
+            in2="SourceGraphic"
+            operator="in"
+            result="mask"
+          />
+          <feMorphology
+            in="mask"
+            operator="dilate"
+            radius={4}
+            result="dilate"
+          />
+          <feGaussianBlur in="dilate" stdDeviation={4} result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
       <rect width={width} height={height} fill="black" />
       <rect width={width} height={height} filter="url(#filter-1)" fill="blue" />
-      <circle
-        cx={cx}
-        cy={cy + 52}
-        r={cy * PHI}
-        stroke="hsl(225, 100%, 85%)"
-        strokeWidth="4"
+      <g
+        id="starthing"
+        filter="url(#starOutline)"
+        stroke="hsl(30, 25%, 50%)"
+        strokeWidth={8}
         fill="none"
-      />
-      <circle
-        cx={cx}
-        cy={cy + 52}
-        r={cy * PHI ** 2}
-        stroke="hsl(225, 100%, 85%)"
-        strokeWidth="4"
-        fill="none"
-      />
-      <Star
-        cx={cx}
-        cy={cy + 52}
-        r={cy}
-        stroke="hsl(225, 100%, 85%)"
-        fill="none"
-        strokeWidth={4}
-      />
-      <Star
-        cx={cx}
-        cy={cy + 52}
-        r={cy * PHI}
-        stroke="hsl(225, 100%, 85%)"
-        fill="none"
-        strokeWidth={4}
-      />
-      <Star
-        cx={cx}
-        cy={cy + 52}
-        r={cy * PHI ** 2}
-        stroke="hsl(225, 100%, 85%)"
-        fill="none"
-        strokeWidth={4}
-        rotate={90}
-      />
+      >
+        <circle cx={cx} cy={cy + 52} r={cy * PHI} fill="none" />
+        <circle cx={cx} cy={cy + 52} r={cy * PHI ** 2} fill="none" />
+        <Star cx={cx} cy={cy + 52} r={cy} />
+        <Star cx={cx} cy={cy + 52} r={cy * PHI} />
+        <Star cx={cx} cy={cy + 52} r={cy * PHI ** 2} rotate={90} />
+      </g>
     </svg>
   );
 }
