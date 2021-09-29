@@ -20,7 +20,11 @@ const basehue = 0;
 
 export default function Paisley() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox={`0 0 ${width} ${height}`}
+    >
       <defs>
         <radialGradient id="radialGradient">
           <stop offset="0%" stopColor={`hsl(${basehue + 180}, 100%, 50%)`} />
@@ -45,7 +49,7 @@ export default function Paisley() {
             `${ps(330, gr[0])}`,
             `M${ps(0, gr[3])}`,
             `A${gr[3]},${gr[3]} 1 1 0 ${ps(-359.9, gr[3])}`,
-          ].join()}
+          ].join(' ')}
           stroke={`hsl(${basehue + 30}, 50%, 25%)`}
           strokeWidth={cy / 80}
           // fill={`hsl(${basehue + 30}, 100%, 50%)`}
