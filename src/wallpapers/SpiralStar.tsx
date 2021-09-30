@@ -8,8 +8,6 @@ const cx = width / 2;
 const cy = height / 2;
 const radii = Array.from(Array(12)).map((_, i) => cy * negPHI ** i);
 const angles = Array.from(Array(10)).map((_, i) => i * (360 / 10));
-const circleDivisions = 89;
-const radials = 34;
 const pc = (angle: number, radius: number) => {
   return {
     x: cx + radius * Math.cos(angle * (Math.PI / 180)),
@@ -25,12 +23,7 @@ export const p = (angle: number, radius: number) => {
 
 export default function SpiralStar() {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      // width={width}
-      // height={height}
-      viewBox={`0 0 ${width} ${height}`}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
       <defs>
         <linearGradient id="gradient" gradientTransform="rotate(90)">
           <stop offset="5%" stopColor="hsl(0, 100%, 2%)" />
@@ -42,63 +35,39 @@ export default function SpiralStar() {
       </defs>
       <rect width={width} height={height} fill="url(#gradient)" />
       <g id="sunflower-bg">
-        {[...Array(540).keys()].map(i => {
-          let angle = Math.round((i * 137.5006) % 360);
-          let r = ((cy - cy / 5) / 180) * i;
+        {[...Array(2160).keys()].map(i => {
+          let angle = Math.round((i * 137.50776405003785) % 360);
+          let r = ((cy - cy * 0.83) / 180) * i;
           return (
             <g key={i}>
               <Star
                 cy={p(angle, r).y}
                 cx={p(angle, r).x}
-                r={r / 15}
+                r={5 + r / 72}
                 rotate={angle}
-                stroke={`hsl(${(r * 137.5) / 2160 + 200}, 100%, 33%)`}
-                strokeWidth={r / 180}
-                fill={`hsl(${(r * 137.5) / 2160 + 200}, 100%, 50%)`}
-                fillOpacity={0.25}
+                // stroke={`hsl(${(r * 137.5) / 2160 + 200}, 100%, 33%)`}
+                stroke={`hsl(${300 - i / 24}, 100%, 50%)`}
+                strokeWidth={0.75 + r / 360}
+                fill={`hsl(${180 - i / 24}, 100%, 25%)`}
+                fillOpacity={0.5}
               />
             </g>
           );
         })}
       </g>
-      {/* <g id="sunflower-bg">
-        {[...Array(circleDivisions).keys()].map(o => {
-          let angle = (360 / circleDivisions) * o + 1;
-          let radian = (angle * Math.PI) / 180;
-          return (
-            <g key={o}>
-              {[...Array(radials).keys()].map(i => {
-                return (
-                  <Star
-                    key={i}
-                    cx={Math.round(
-                      cx +
-                        angle *
-                          PHI ** 5 *
-                          Math.cos(radian + ((Math.PI * 2) / radials) * i)
-                    )}
-                    cy={Math.round(
-                      cy +
-                        angle *
-                          PHI ** 5 *
-                          Math.sin(radian + ((Math.PI * 2) / radials) * i)
-                    )}
-                    r={o * negPHI * PHI}
-                    rotate={angle}
-                    fill={`hsl(${Math.round(
-                      280 - (30 / radials) * o
-                    )}, 100%, 10%)`}
-                    stroke={`hsl(${Math.round(
-                      280 - (30 / radials) * o
-                    )}, 100%, 50%)`}
-                    strokeWidth={6}
-                  />
-                );
-              })}
-            </g>
-          );
-        })}
-      </g> */}
+      <g id="circles" transform={`rotate(-90, ${cx}, ${cy})`}>
+        {radii.map((r, i) => (
+          <circle
+            key={r}
+            cx={cx}
+            cy={cy}
+            r={r}
+            stroke={`hsl(45, 100%, 50%)`}
+            strokeWidth={2}
+            fill="none"
+          />
+        ))}
+      </g>
       <g id="star" transform={`rotate(-90, ${cx}, ${cy})`}>
         <path
           d={`M${pc(angles[0], radii[0]).x},${pc(angles[0], radii[0]).y} ${[
@@ -120,33 +89,20 @@ export default function SpiralStar() {
           fillOpacity={0.5}
         />
       </g>
-      <g id="circles" transform={`rotate(-90, ${cx}, ${cy})`}>
-        {radii.map((r, i) => (
-          <circle
-            key={r}
-            cx={cx}
-            cy={cy}
-            r={r}
-            stroke={`hsl(45, 100%, 50%)`}
-            strokeWidth={2}
-            fill="none"
-          />
-        ))}
-      </g>
       <g id="sunflower" clipPath="url(#circleClip)">
-        {[...Array(540).keys()].map(i => {
-          let angle = Math.round((i * 137.5006) % 360);
-          let r = ((cy - cy / 5) / 360) * i;
+        {[...Array(1080).keys()].map(i => {
+          let angle = Math.round((i * 137.50776405003785) % 360);
+          let r = ((cy - cy * (PHI - 1)) / 360) * i;
           return (
             <g key={i}>
               <Star
                 cy={p(angle, r).y}
                 cx={p(angle, r).x}
-                r={r / 15}
+                r={5 + r / 48}
                 rotate={angle}
                 // stroke={`hsl(${(r * 137.5) / 360 + 300}, 100%, 75%)`}
-                stroke={`hsl(${(r * 137.5) / 2160 + 0}, 100%, 50%)`}
-                strokeWidth={r / 180}
+                stroke={`hsl(${90 - i / 15}, 100%, 50%)`}
+                strokeWidth={0.75 + r / 180}
                 fill={`hsl(${(r * 137.5) / 2160 + 0}, 100%, 20%)`}
                 fillOpacity={1}
               />
@@ -154,44 +110,6 @@ export default function SpiralStar() {
           );
         })}
       </g>
-      {/* <g id="sunflower" clipPath="url(#circleClip)">
-        {[...Array(circleDivisions).keys()].map(o => {
-          let angle = (360 / circleDivisions) * o + 1;
-          let radian = (angle * Math.PI) / 180;
-          return (
-            <g key={o}>
-              {Array.from({ length: radials }).map((_, i) => {
-                return (
-                  <Star
-                    key={i}
-                    cx={Math.round(
-                      cx +
-                        angle *
-                          PHI ** 4 *
-                          Math.cos(radian + ((Math.PI * 2) / radials) * i)
-                    )}
-                    cy={Math.round(
-                      cy +
-                        angle *
-                          PHI ** 4 *
-                          Math.sin(radian + ((Math.PI * 2) / radials) * i)
-                    )}
-                    r={o * negPHI}
-                    rotate={angle}
-                    fill={`hsl(${Math.round(
-                      90 - (30 / radials) * o
-                    )}, 100%, 10%)`}
-                    stroke={`hsl(${Math.round(
-                      90 - (30 / radials) * o
-                    )}, 100%, 50%)`}
-                    strokeWidth={6}
-                  />
-                );
-              })}
-            </g>
-          );
-        })}
-      </g> */}
     </svg>
   );
 }
