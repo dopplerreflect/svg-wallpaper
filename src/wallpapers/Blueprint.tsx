@@ -20,13 +20,17 @@ import {
   SpherishRings,
   SpherishLegend,
 } from './components/Blueprint';
+import useSaveSVG from '@dopplerreflect/use-save-svg';
 
 const baseHue = 0;
 const strokeColor = `hsl(${baseHue + 30}, 100%, 50%)`;
 
 export default function Blueprint() {
+  const svgRef = useSaveSVG();
   return (
     <svg
+      id="BlueprintStarMandala"
+      ref={svgRef}
       xmlnsXlink="http://www.w3.org/1999/xlink"
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${width} ${height}`}
@@ -120,7 +124,7 @@ export default function Blueprint() {
         height={height}
         filter="url(#blueprintPaper)"
       />
-      <g id="mandala" filter="url(#mandala)" style={{ display: 'inline' }}>
+      {/* <g id="mandala" filter="url(#mandala)" style={{ display: 'inline' }}>
         {angles.map(
           (a, i) =>
             i % 2 === 1 && (
@@ -182,13 +186,13 @@ export default function Blueprint() {
             />
           </g>
         ))}
-      </g>
-      {/* <Rays /> */}
-      {/* <RayLegend /> */}
-      {/* <GoldenRings /> */}
-      {/* <GoldenLegend /> */}
-      {/* <SpherishRings /> */}
-      {/* <SpherishLegend /> */}
+      </g> */}
+      <Rays />
+      <RayLegend />
+      <GoldenRings />
+      <GoldenLegend />
+      <SpherishRings />
+      <SpherishLegend />
     </svg>
   );
 }

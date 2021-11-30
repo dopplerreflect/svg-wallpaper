@@ -220,6 +220,13 @@
     "@babel/helper-validator-identifier" "^7.14.5"
     to-fast-properties "^2.0.0"
 
+"@dopplerreflect/use-save-svg@^0.0.5":
+  version "0.0.5"
+  resolved "https://npm.pkg.github.com/download/@dopplerreflect/use-save-svg/0.0.5/0e4da623f8ddf913c19979a9d5bca7588a63bdd96a2fc9546e0018afd462abe6#8ae306fa0897260bad69bcf7916bc91de5c6748b"
+  integrity sha512-joJ7SzfkC7foALu//4X5hQDUW0sI/BsXXTaZSKxIO1r0mrmLG3NnHXLWIyDAxDC1rr/NtPZ9oMVF646wjBDcfA==
+  dependencies:
+    react "^17.0.2"
+
 "@rollup/pluginutils@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.1.0.tgz#0dcc61c780e39257554feb7f77207dceca13c838"
@@ -479,7 +486,7 @@ react-refresh@^0.10.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.10.0.tgz#2f536c9660c0b9b1d500684d9e52a65e7404f7e3"
   integrity sha512-PgidR3wST3dDYKr6b4pJoqQFpPGNKDSCDx4cZoshjXipw3LzO7mG1My2pwEzz2JVkF+inx3xRpDeQLFQGH/hsQ==
 
-react@^17.0.0:
+react@^17.0.0, react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==

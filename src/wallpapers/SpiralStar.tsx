@@ -1,5 +1,6 @@
 import React from 'react';
 import Star from './components/star';
+import useSaveSVG from '@dopplerreflect/use-save-svg';
 const PHI = (1 + Math.sqrt(5)) / 2;
 const negPHI = PHI - 1;
 const width = 1920;
@@ -22,19 +23,26 @@ export const p = (angle: number, radius: number) => {
 };
 
 export default function SpiralStar() {
+  const svgRef = useSaveSVG();
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
+    <svg
+      ref={svgRef}
+      xmlns='http://www.w3.org/2000/svg'
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+    >
       <defs>
-        <linearGradient id="gradient" gradientTransform="rotate(90)">
-          <stop offset="5%" stopColor="hsl(0, 100%, 2%)" />
-          <stop offset="95%" stopColor="hsl(30, 100%, 10%)" />
+        <linearGradient id='gradient' gradientTransform='rotate(90)'>
+          <stop offset='5%' stopColor='hsl(0, 100%, 2%)' />
+          <stop offset='95%' stopColor='hsl(30, 100%, 10%)' />
         </linearGradient>
-        <clipPath id="circleClip">
+        <clipPath id='circleClip'>
           <circle cx={cx} cy={cy} r={cy - 1} />
         </clipPath>
       </defs>
-      <rect width={width} height={height} fill="url(#gradient)" />
-      <g id="sunflower-bg">
+      <rect width={width} height={height} fill='url(#gradient)' />
+      <g id='sunflower-bg'>
         {[...Array(2160).keys()].map(i => {
           let angle = Math.round((i * 137.50776405003785) % 360);
           let r = ((cy - cy * 0.83) / 180) * i;
@@ -55,7 +63,7 @@ export default function SpiralStar() {
           );
         })}
       </g>
-      <g id="circles" transform={`rotate(-90, ${cx}, ${cy})`}>
+      <g id='circles' transform={`rotate(-90, ${cx}, ${cy})`}>
         {radii.map((r, i) => (
           <circle
             key={r}
@@ -64,11 +72,11 @@ export default function SpiralStar() {
             r={r}
             stroke={`hsl(45, 100%, 50%)`}
             strokeWidth={2}
-            fill="none"
+            fill='none'
           />
         ))}
       </g>
-      <g id="star" transform={`rotate(-90, ${cx}, ${cy})`}>
+      <g id='star' transform={`rotate(-90, ${cx}, ${cy})`}>
         <path
           d={`M${pc(angles[0], radii[0]).x},${pc(angles[0], radii[0]).y} ${[
             ...Array(angles.length - 1).keys(),
@@ -80,16 +88,16 @@ export default function SpiralStar() {
                 }`
             )
             .join(' ')} Z`}
-          stroke="hsl(45, 100%, 50%)"
+          stroke='hsl(45, 100%, 50%)'
           strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="bevel"
+          strokeLinecap='round'
+          strokeLinejoin='bevel'
           transform={`rotate(0, ${cx}, ${cy})`}
-          fill="hsl(240, 100%, 20%)"
+          fill='hsl(240, 100%, 20%)'
           fillOpacity={0.5}
         />
       </g>
-      <g id="sunflower" clipPath="url(#circleClip)">
+      <g id='sunflower' clipPath='url(#circleClip)'>
         {[...Array(1080).keys()].map(i => {
           let angle = Math.round((i * 137.50776405003785) % 360);
           let r = ((cy - cy * (PHI - 1)) / 360) * i;

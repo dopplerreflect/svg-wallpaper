@@ -1,6 +1,6 @@
 import React from 'react';
 import { pc } from '../utils';
-
+import useSaveSVG from '@dopplerreflect/use-save-svg';
 const PHI = (Math.sqrt(5) + 1) / 2;
 const PHIm1 = PHI - 1;
 const width = 1080;
@@ -19,8 +19,11 @@ const angles = [...Array(6).keys()].map(k => 60 * k);
 const basehue = 0;
 
 export default function Paisley() {
+  const svgRef = useSaveSVG();
   return (
     <svg
+      id="Paisley"
+      ref={svgRef}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox={`0 0 ${width} ${height}`}
