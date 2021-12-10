@@ -8,7 +8,7 @@ const height = 2375;
 const cx = width / 2;
 const cy = height / 2;
 const radii = Array.from(Array(12)).map((_, i) => (width / (PHI * 2)) * (PHI - 1) ** i);
-const angles = Array.from(Array(10)).map((_, i) => i * (360 / 10));
+// const angles = Array.from(Array(10)).map((_, i) => i * (360 / 10));
 const pc = (angle: number, radius: number) => {
   return {
     x: cx + radius * Math.cos(angle * (Math.PI / 180)),
@@ -30,7 +30,7 @@ export default function SpiralStar() {
       id='Manufactory-Main'
       xmlns='http://www.w3.org/2000/svg'
       // viewBox={`0 0 ${width} ${height}`}
-      viewBox='0 768 1080 1080'
+      viewBox='0 768 1024 1024'
     >
       <defs>
         <linearGradient id='gradient' gradientTransform='rotate(90)'>
@@ -61,7 +61,7 @@ export default function SpiralStar() {
       </g>
       <Star cx={cx} cy={cy} r={radii[0]} fill='url(#gradient)' fillOpacity={0.75} />
       <g id='sunflower' clipPath='url(#circleClip)' fillOpacity={0.5}>
-        <StarField startHue={45} endHue={0} outerBounds={radii[0] + radii[0] * 0.1} />
+        <StarField startHue={45} endHue={0} outerBounds={radii[0]} />
       </g>
     </svg>
   );
@@ -76,7 +76,7 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
   let i = 0;
   let r = 0;
   let paramsArray = [];
-  while (r < outerBounds) {
+  while (r < outerBounds + outerBounds * 0.1) {
     i++;
     let angle = (i * (360 - 360 * (PHI - 1))) % 360;
     r = ((cy - cy * 0.9) / 320) * i;
@@ -89,7 +89,7 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
       key={i}
       cy={p.c.y}
       cx={p.c.x}
-      r={p.r / (13 + 0.0104 * i)}
+      r={p.r / (13 + 0.015 * i)}
       rotate={p.angle}
       stroke={`hsl(${
         startHue - Math.abs((startHue - endHue) / paramsArray.length) * i
