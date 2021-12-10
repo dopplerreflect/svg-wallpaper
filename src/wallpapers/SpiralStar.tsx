@@ -1,9 +1,10 @@
 import React from 'react';
 import Star from './components/star';
 import useSaveSVG from '@dopplerreflect/use-save-svg';
+import { outerRadius } from './components/Blueprint';
 const PHI = (1 + Math.sqrt(5)) / 2;
-const width = 8400;
-const height = 9000;
+const width = 1080;
+const height = 2375;
 const cx = width / 2;
 const cy = height / 2;
 const radii = Array.from(Array(12)).map((_, i) => (width / (PHI * 2)) * (PHI - 1) ** i);
@@ -28,12 +29,13 @@ export default function SpiralStar() {
       ref={svgRef}
       id='Manufactory-Main'
       xmlns='http://www.w3.org/2000/svg'
-      viewBox={`0 0 ${width} ${height}`}
+      // viewBox={`0 0 ${width} ${height}`}
+      viewBox='0 768 1080 1080'
     >
       <defs>
         <linearGradient id='gradient' gradientTransform='rotate(90)'>
-          <stop offset='0%' stopColor='hsl(0, 100%, 100%)' />
-          <stop offset='100%' stopColor='hsl(225, 100%, 90%)' />
+          <stop offset='0%' stopColor='hsl(280, 100%, 50%)' />
+          <stop offset='100%' stopColor='hsl(220, 100%, 50%)' />
         </linearGradient>
         <clipPath id='circleClip'>
           <circle cx={cx} cy={cy} r={width / (PHI * 2)} />
@@ -44,23 +46,7 @@ export default function SpiralStar() {
         </mask>
       </defs>
       <g id='sunflower-bg' mask='url(#circleMask)' fillOpacity={0.5}>
-        {[...Array(2500).keys()].map(i => {
-          let angle = Math.round((i * (360 - 360 * (PHI - 1))) % 360);
-          let r = ((cy - cy * 0.83) / 320) * i;
-          return (
-            <g key={i}>
-              <Star
-                cy={p(angle, r).y}
-                cx={p(angle, r).x}
-                r={r / 36}
-                rotate={angle}
-                stroke={`hsl(${240 - i / 36}, 100%, 50%)`}
-                strokeWidth={0.75 + r / 360}
-                fill={`hsl(${240 - i / 36}, 100%, 50%)`}
-              />
-            </g>
-          );
-        })}
+        <StarField startHue={360} endHue={180} outerBounds={cy} />
       </g>
       <g
         id='circles'
@@ -73,67 +59,46 @@ export default function SpiralStar() {
           <circle key={r} cx={cx} cy={cy} r={r} />
         ))}
       </g>
-      <g
-        id='star'
-        transform={`rotate(-90, ${cx}, ${cy})`}
-        stroke='hsl(60, 100%, 50%)'
-        strokeLinecap='round'
-        strokeLinejoin='bevel'
-        fill='hsl(45, 100%, 50%)'
-      >
-        <path
-          d={`M${pc(angles[0], radii[0]).x},${pc(angles[0], radii[0]).y} ${[
-            ...Array(angles.length - 1).keys(),
-          ]
-            .map(
-              i =>
-                `L${pc(angles[i + 1], i % 2 === 0 ? radii[2] : radii[0]).x},${
-                  pc(angles[i + 1], i % 2 === 0 ? radii[2] : radii[0]).y
-                }`
-            )
-            .join(' ')} Z`}
-          transform={`rotate(0, ${cx}, ${cy})`}
-          strokeWidth={width / 1080}
-          fillOpacity={0.125}
-        />
-      </g>
-      <g id='sunflower' clipPath='url(#circleClip)'>
-        {/* {[...Array(1250).keys()].map(i => {
-          let angle = Math.round((i * (360 - 360 * (PHI - 1))) % 360);
-          let r = ((cy - cy * 0.83) / 360) * i;
-          return (
-            <g key={i}>
-              <Star
-                cy={p(angle, r).y}
-                cx={p(angle, r).x}
-                r={r / 36}
-                rotate={angle}
-                stroke={`hsl(${90 - i / 15}, 100%, 50%)`}
-                strokeWidth={0.75 + r / 180}
-                fill={`hsl(${270 - i / 15}, 100%, 50%)`}
-                fillOpacity={1}
-              />
-            </g>
-          );
-        })} */}
-        {[...Array(1250).keys()].map(i => {
-          let angle = Math.round((i * (360 - 360 * (PHI - 1))) % 360);
-          let r = ((cy - cy * 0.83) / 320) * i;
-          return (
-            <g key={i}>
-              <Star
-                cy={p(angle, r).y}
-                cx={p(angle, r).x}
-                r={r / 36}
-                rotate={angle}
-                stroke={`hsl(${240 - i / 36}, 100%, 50%)`}
-                strokeWidth={0.75 + r / 360}
-                fill={`hsl(${45 - i / 36}, 100%, 50%)`}
-              />
-            </g>
-          );
-        })}
+      <Star cx={cx} cy={cy} r={radii[0]} fill='url(#gradient)' fillOpacity={0.75} />
+      <g id='sunflower' clipPath='url(#circleClip)' fillOpacity={0.5}>
+        <StarField startHue={45} endHue={0} outerBounds={radii[0] + radii[0] * 0.1} />
       </g>
     </svg>
   );
 }
+
+type StarFieldProps = {
+  outerBounds: number;
+  startHue: number;
+  endHue: number;
+};
+const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
+  let i = 0;
+  let r = 0;
+  let paramsArray = [];
+  while (r < outerBounds) {
+    i++;
+    let angle = (i * (360 - 360 * (PHI - 1))) % 360;
+    r = ((cy - cy * 0.9) / 320) * i;
+    const c = p(angle, r);
+    paramsArray.push({ i, c, r, angle });
+  }
+  console.log(paramsArray.length);
+  const stars = paramsArray.map((p, i) => (
+    <Star
+      key={i}
+      cy={p.c.y}
+      cx={p.c.x}
+      r={p.r / (13 + 0.0104 * i)}
+      rotate={p.angle}
+      stroke={`hsl(${
+        startHue - Math.abs((startHue - endHue) / paramsArray.length) * i
+      }, 100%, 50%)`}
+      strokeWidth={0.75 + p.r / 360}
+      fill={`hsl(${
+        startHue - Math.abs((startHue - endHue) / paramsArray.length) * i
+      }, 100%, 50%)`}
+    />
+  ));
+  return <g id='StarField'>{stars}</g>;
+};
