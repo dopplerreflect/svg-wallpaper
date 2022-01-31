@@ -43,30 +43,30 @@ export default function SpiralStar() {
           <circle cx={cx} cy={cy} r={width / (PHI * 2)} fill='black' />
         </mask>
 
-        <filter id='colorFilter1'>
-          <feColorMatrix type='hueRotate' values='30' />
-        </filter>
-        <filter id='colorFilter2'>
+        <filter id='circleHueShift'>
           <feColorMatrix type='hueRotate' values='-90' />
         </filter>
+        <filter id='starHueShift'>
+          <feColorMatrix type='hueRotate' values='30' />
+        </filter>
         <g id='starfield'>
-          <StarField startHue={360} endHue={180} outerBounds={cy} />
+          <StarField startHue={60} endHue={320} outerBounds={cy} />
         </g>
       </defs>
 
       <rect x={0} y={0} width={width} height={height} fill='white' />
 
-      <g id='circles' stroke={`hsl(30, 100%, 50%)`} strokeWidth={height / 1080} fill='none'>
+      {/* <g id='circles' stroke={`hsl(30, 100%, 50%)`} strokeWidth={height / 1080} fill='none'>
         {radii.map(r => (
           <circle key={r} cx={cx} cy={cy} r={r} />
         ))}
-      </g>
+      </g> */}
 
       <g id='sunflower-bg' mask='url(#circleMask)' fillOpacity={0.5}>
         <use xlinkHref='#starfield' />
       </g>
 
-      <Star
+      {/* <Star
         cx={cx}
         cy={cy}
         r={radii[0]}
@@ -74,14 +74,14 @@ export default function SpiralStar() {
         fill='white'
         stroke='hsl(30, 100%, 50%)'
         strokeWidth={height / 1080}
-      />
+      /> */}
 
       <g id='sunflowerInCircle' mask='url(#outsideStarMask)' fillOpacity={0.75}>
-        <use xlinkHref='#starfield' filter='url(#colorFilter1)' />
+        <use xlinkHref='#starfield' filter='url(#circleHueShift)' />
       </g>
 
       <g id='sunflowerInStar' clipPath='url(#starClip)' fillOpacity={0.5}>
-        <use xlinkHref='#starfield' filter='url(#colorFilter2)' />
+        <use xlinkHref='#starfield' filter='url(#starHueShift)' />
       </g>
     </svg>
   );
@@ -99,7 +99,7 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
   while (r < outerBounds + outerBounds * 0.1) {
     i++;
     let angle = (i * (360 - 360 * (PHI - 1))) % 360;
-    r = ((cy - cy * 0.9) / 320) * i;
+    r = ((cy - cy * 0.9) / 300) * i;
     const c = p(angle, r);
     paramsArray.push({ i, c, r, angle });
   }
@@ -113,8 +113,9 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
       rotate={p.angle}
       stroke={`hsl(${
         startHue - Math.abs((startHue - endHue) / paramsArray.length) * i
-      }, 100%, 50%)`}
-      strokeWidth={0.75 + p.r / 360}
+      }, 100%, 25%)`}
+      // stroke='black'
+      strokeWidth={0.75 + p.r / 540}
       fill={`hsl(${
         startHue - Math.abs((startHue - endHue) / paramsArray.length) * i
       }, 100%, 50%)`}
