@@ -45,10 +45,10 @@ export default function SpiralStar() {
         </mask>
 
         <filter id='circleHueShift'>
-          <feColorMatrix type='hueRotate' values='-90' />
+          <feColorMatrix type='hueRotate' values='-60' />
         </filter>
         <filter id='starHueShift'>
-          <feColorMatrix type='hueRotate' values='30' />
+          <feColorMatrix type='hueRotate' values='0' />
         </filter>
         <g id='starfield'>
           <StarField startHue={0} endHue={360} outerBounds={cx} />
@@ -57,31 +57,31 @@ export default function SpiralStar() {
 
       <rect x={0} y={0} width={width} height={height} fill='black' />
 
+      <Star
+        cx={cx}
+        cy={cy}
+        r={radii[0]}
+        fillOpacity={0.1}
+        fill='hsl(30, 100%, 50%)'
+        stroke='hsl(30, 100%, 50%)'
+        strokeWidth={height / 1080}
+      />
+
       <g id='circles' stroke={`hsl(30, 100%, 50%)`} strokeWidth={height / 1080} fill='none'>
         {radii.map(r => (
           <circle key={r} cx={cx} cy={cy} r={r} />
         ))}
       </g>
 
-      <g id='sunflower-bg' mask='url(#circleMas)' fillOpacity={0.5}>
+      <g id='sunflower-bg' mask='url(#circleMask)' fillOpacity={1}>
         <use xlinkHref='#starfield' />
       </g>
 
-      <Star
-        cx={cx}
-        cy={cy}
-        r={radii[0]}
-        fillOpacity={0.1}
-        // fill='white'
-        stroke='hsl(30, 100%, 50%)'
-        strokeWidth={height / 1080}
-      />
-
-      <g id='sunflowerInCircle' mask='url(#outsideStarMask)' fillOpacity={0.75}>
+      <g id='sunflowerInCircle' mask='url(#outsideStarMask)' fillOpacity={1}>
         <use xlinkHref='#starfield' filter='url(#circleHueShift)' />
       </g>
 
-      <g id='sunflowerInStar' clipPath='url(#starClip)' fillOpacity={0.5}>
+      <g id='sunflowerInStar' clipPath='url(#starClip)' fillOpacity={1}>
         <use xlinkHref='#starfield' filter='url(#starHueShift)' />
       </g>
     </svg>
@@ -114,7 +114,7 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
       rotate={p.angle}
       stroke={`hsl(${
         startHue - Math.abs((startHue + endHue) / paramsArray.length) * i
-      }, 100%, 20%)`}
+      }, 25%, 50%)`}
       // stroke='black'
       strokeWidth={0.75 + p.r / 540}
       fill={`hsl(${
