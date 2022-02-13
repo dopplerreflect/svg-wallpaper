@@ -45,7 +45,7 @@ export default function SpiralStar() {
         </mask>
 
         <filter id='circleHueShift'>
-          <feColorMatrix type='hueRotate' values='-60' />
+          <feColorMatrix type='hueRotate' values='0' />
         </filter>
         <filter id='starHueShift'>
           <feColorMatrix type='hueRotate' values='0' />
@@ -61,8 +61,8 @@ export default function SpiralStar() {
         cx={cx}
         cy={cy}
         r={radii[0]}
-        fillOpacity={0.1}
-        fill='hsl(30, 100%, 50%)'
+        fillOpacity={0.5}
+        fill='hsl(270, 100%, 50%)'
         stroke='hsl(30, 100%, 50%)'
         strokeWidth={height / 1080}
       />
@@ -112,14 +112,13 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
       cx={p.c.x}
       r={p.r / (13 + 0.015 * i)}
       rotate={p.angle}
-      stroke={`hsl(${
-        startHue - Math.abs((startHue + endHue) / paramsArray.length) * i
-      }, 25%, 50%)`}
-      // stroke='black'
+      // stroke={`hsl(${
+      //   startHue - Math.abs((startHue + endHue) / paramsArray.length) * i * 10
+      // }, 25%, 50%)`}
+      stroke='hsl(0, 0%, 50%'
       strokeWidth={0.75 + p.r / 540}
-      fill={`hsl(${
-        startHue + Math.abs((startHue - endHue) / paramsArray.length) * i
-      }, 100%, 50%)`}
+      // fill={`hsl(${i % 2 === 0 ? i % 21 : (i % 34) - 120}, 100%, 50%)`}
+      fill={`hsl(${i % 21 === 0 ? 60 : i % 13 === 0 ? 0 : i % 8 === 0 ? 45 : 270}, 100%, 50%)`}
     />
   ));
   return <g id='StarField'>{stars}</g>;
