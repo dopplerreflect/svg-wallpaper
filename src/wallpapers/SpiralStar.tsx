@@ -66,7 +66,7 @@ export default function SpiralStar() {
         <use xlinkHref='#starfield' />
       </g>
 
-      {/* <Star
+      <Star
         cx={cx}
         cy={cy}
         r={radii[0]}
@@ -74,7 +74,7 @@ export default function SpiralStar() {
         fill='white'
         stroke='hsl(30, 100%, 50%)'
         strokeWidth={height / 1080}
-      /> */}
+      />
 
       <g id='sunflowerInCircle' mask='url(#outsideStarMask)' fillOpacity={0.75}>
         <use xlinkHref='#starfield' filter='url(#circleHueShift)' />
@@ -99,7 +99,7 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
   while (r < outerBounds + outerBounds * 0.1) {
     i++;
     let angle = (i * (360 - 360 * (PHI - 1))) % 360;
-    r = ((cy - cy * 0.9) / 300) * i;
+    r = (cy - cy * (PHI - 1)) * 0.0009 * i;
     const c = p(angle, r);
     paramsArray.push({ i, c, r, angle });
   }
@@ -114,7 +114,6 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
       stroke={`hsl(${
         startHue - Math.abs((startHue - endHue) / paramsArray.length) * i
       }, 100%, 25%)`}
-      // stroke='black'
       strokeWidth={0.75 + p.r / 540}
       fill={`hsl(${
         startHue - Math.abs((startHue - endHue) / paramsArray.length) * i
