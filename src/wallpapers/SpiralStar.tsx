@@ -55,19 +55,20 @@ export default function SpiralStar() {
         </g>
       </defs>
 
-      <rect x={0} y={0} width={width} height={height} fill='black' />
+      <rect x={0} y={0} width={width} height={height} fill='white' />
 
       <Star
         cx={cx}
         cy={cy}
         r={radii[0]}
-        fillOpacity={0.5}
-        fill='hsl(270, 100%, 50%)'
-        stroke='hsl(30, 100%, 50%)'
-        strokeWidth={height / 1080}
+        fillOpacity={0.125}
+        // fill='hsl(240, 100%, 25%)'
+        fill='none'
+        stroke='hsl(240, 100%, 0%)'
+        strokeWidth={height / 512}
       />
 
-      <g id='circles' stroke={`hsl(30, 100%, 50%)`} strokeWidth={height / 1080} fill='none'>
+      <g id='circles' stroke={`hsl(240, 100%, 0%)`} strokeWidth={height / 512} fill='none'>
         {radii.map(r => (
           <circle key={r} cx={cx} cy={cy} r={r} />
         ))}
@@ -100,7 +101,7 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
   while (r < outerBounds + outerBounds * 0.2) {
     i++;
     let angle = (i * (360 - 360 * (PHI - 1))) % 360;
-    r = ((cy - cy * 0.9) / 144) * i;
+    r = ((cy - cy * (PHI - 1)) / PHI ** 10) * i;
     const c = p(angle, r);
     paramsArray.push({ i, c, r, angle });
   }
@@ -110,15 +111,17 @@ const StarField = ({ outerBounds, startHue, endHue }: StarFieldProps) => {
       key={i}
       cy={p.c.y}
       cx={p.c.x}
-      r={p.r / (13 + 0.015 * i)}
+      r={p.r / (10 + 0.015 * i)}
       rotate={p.angle}
       // stroke={`hsl(${
       //   startHue - Math.abs((startHue + endHue) / paramsArray.length) * i * 10
       // }, 25%, 50%)`}
       stroke='hsl(0, 0%, 50%'
       strokeWidth={0.75 + p.r / 540}
-      // fill={`hsl(${i % 2 === 0 ? i % 21 : (i % 34) - 120}, 100%, 50%)`}
-      fill={`hsl(${i % 21 === 0 ? 60 : i % 13 === 0 ? 0 : i % 8 === 0 ? 45 : 270}, 100%, 50%)`}
+      fill={`hsl(${i % 3 === 0 ? 0 : i % 2 === 0 ? 240 : 90}, 100%, ${
+        i % 3 === 0 || i % 2 === 0 ? '50%' : '100%'
+      })`}
+      // fill={`hsl(${i % 21 === 0 ? 60 : i % 13 === 0 ? 0 : i % 8 === 0 ? 45 : 270}, 100%, 50%)`}
     />
   ));
   return <g id='StarField'>{stars}</g>;
